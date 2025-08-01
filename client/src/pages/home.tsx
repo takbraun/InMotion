@@ -52,19 +52,32 @@ export default function Home() {
       <AppHeader />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* Left Column: Vision & Quarterly Planning */}
-          <div className="lg:col-span-1 space-y-6">
+        {/* First Row: Vision & Weekly Planning */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          <div className="equal-height-card">
             <VisionPlanningModule />
+          </div>
+          <div className="equal-height-card">
+            <WeeklyPlanningSystem />
+          </div>
+        </div>
+        
+        {/* Second Row: Quarterly Quest & Daily Tasks */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 items-stretch">
+          <div className="equal-height-card">
             <QuarterlyQuestTracker />
           </div>
-
-          {/* Center Column: Weekly & Daily Planning */}
-          <div className="lg:col-span-2 space-y-6">
-            <WeeklyPlanningSystem />
+          <div className="equal-height-card">
             <DailyTaskManager />
+          </div>
+        </div>
+        
+        {/* Third Row: Timer & Reflection */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 items-stretch">
+          <div className="equal-height-card">
             <PomodoroTimer />
+          </div>
+          <div className="equal-height-card">
             <DailyReflection />
           </div>
         </div>

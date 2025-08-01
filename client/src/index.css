@@ -86,4 +86,27 @@
   .collapsible-content.expanded {
     max-height: 1000px;
   }
+  
+  .equal-height-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  
+  .equal-height-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .equal-height-card > .card-shadow {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+  }
+  
+  .equal-height-card .card-shadow > div:last-child {
+    flex: 1;
+  }
 }
