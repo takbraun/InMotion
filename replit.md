@@ -1,6 +1,11 @@
 # Overview
 
-This is a scalable web application inspired by Ali Abdaal's LifeOS framework, designed to help aspiring entrepreneurs and productivity-focused users transform their vision into actionable tasks. The app provides a comprehensive productivity system that includes vision planning, quarterly goal tracking, weekly planning, daily task management, and integrated Pomodoro timer functionality.
+InMotion is a scalable productivity web application designed to help aspiring entrepreneurs and productivity-focused users transform their vision into actionable tasks. The app provides a comprehensive productivity system that includes vision planning, quarterly goal tracking, weekly planning, daily task management, and integrated Pomodoro timer functionality.
+
+## Recent Changes
+- **August 1, 2025**: Rebranded application from "LifeOS" to "InMotion" across all components, pages, and documentation
+- **August 1, 2025**: Updated HTML title and meta description to reflect new branding
+- **August 1, 2025**: Fixed card alignment issues with equal-height layout system for professional appearance
 
 The application follows a full-stack architecture with a React frontend, Express.js backend, and PostgreSQL database, designed to work seamlessly across desktop, tablet, and mobile devices.
 

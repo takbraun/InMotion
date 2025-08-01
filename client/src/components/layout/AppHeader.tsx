@@ -14,7 +14,7 @@ export default function AppHeader() {
               <div className="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
                 <Compass className="text-white w-4 h-4" />
               </div>
-              <h1 className="text-xl font-bold text-gray-900">LifeOS</h1>
+              <h1 className="text-xl font-bold text-gray-900">InMotion</h1>
             </div>
           </div>
           

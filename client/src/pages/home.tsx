@@ -37,7 +37,7 @@ export default function Home() {
           <div className="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center mx-auto mb-4">
             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
           </div>
-          <p className="text-gray-600">Loading your productivity dashboard...</p>
+          <p className="text-gray-600">Loading your InMotion dashboard...</p>
         </div>
       </div>
     );
