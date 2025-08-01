@@ -14,6 +14,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import type { QuarterlyQuest } from "@shared/schema";
 
 const questFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -33,12 +34,12 @@ export default function QuarterlyQuestTracker() {
   const currentYear = new Date().getFullYear();
   const currentQuarter = `Q${Math.ceil((new Date().getMonth() + 1) / 3)}`;
 
-  const { data: quests, isLoading } = useQuery({
+  const { data: quests, isLoading } = useQuery<QuarterlyQuest[]>({
     queryKey: ["/api/quarterly-quests"],
     retry: false,
   });
 
-  const activeQuest = quests?.find((quest: any) => quest.isActive);
+  const activeQuest = quests?.find((quest) => quest.isActive);
 
   const form = useForm<QuestFormData>({
     resolver: zodResolver(questFormSchema),
@@ -308,7 +309,7 @@ export default function QuarterlyQuestTracker() {
                     min="0"
                     max="100"
                     className="w-20"
-                    defaultValue={activeQuest.progress}
+                    defaultValue={activeQuest.progress || 0}
                     onBlur={(e) => {
                       const progress = parseInt(e.target.value);
                       if (progress !== activeQuest.progress && progress >= 0 && progress <= 100) {

@@ -13,6 +13,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import type { DailyReflection } from "@shared/schema";
 import { format } from "date-fns";
 
 const reflectionFormSchema = z.object({
@@ -29,7 +30,7 @@ export default function DailyReflection() {
   
   const today = format(new Date(), "yyyy-MM-dd");
 
-  const { data: reflection, isLoading } = useQuery({
+  const { data: reflection, isLoading } = useQuery<DailyReflection>({
     queryKey: ["/api/daily-reflections", today],
     retry: false,
   });

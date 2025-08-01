@@ -14,6 +14,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import type { VisionPlan } from "@shared/schema";
 
 const visionFormSchema = z.object({
   coreValues: z.array(z.string()).min(1, "At least one core value is required"),
@@ -28,7 +29,7 @@ export default function VisionPlanningModule() {
   const [newValue, setNewValue] = useState("");
   const { toast } = useToast();
 
-  const { data: visionPlan, isLoading } = useQuery({
+  const { data: visionPlan, isLoading } = useQuery<VisionPlan>({
     queryKey: ["/api/vision"],
     retry: false,
   });

@@ -30,7 +30,11 @@ export default function PomodoroTimer({ taskId, taskTitle }: PomodoroTimerProps)
 
   const today = format(new Date(), "yyyy-MM-dd");
 
-  const { data: stats } = useQuery({
+  const { data: stats } = useQuery<{
+    totalFocusTime: number;
+    completedPomodoros: number;
+    averageSessionLength: number;
+  }>({
     queryKey: ["/api/pomodoro-sessions/stats", { date: today }],
     retry: false,
   });

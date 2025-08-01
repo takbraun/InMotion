@@ -219,8 +219,15 @@ export const insertDailyReflectionSchema = createInsertSchema(dailyReflections).
   updatedAt: true,
 });
 
+// User insert schema
+export const insertUserSchema = createInsertSchema(users).omit({
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type UpsertUser = typeof users.$inferInsert;
+export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type VisionPlan = typeof visionPlans.$inferSelect;
 export type InsertVisionPlan = z.infer<typeof insertVisionPlanSchema>;

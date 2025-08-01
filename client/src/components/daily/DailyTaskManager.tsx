@@ -15,6 +15,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import type { DailyTask } from "@shared/schema";
 import { format } from "date-fns";
 
 const taskFormSchema = z.object({
@@ -35,7 +36,7 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const { toast } = useToast();
 
-  const { data: tasks, isLoading } = useQuery({
+  const { data: tasks, isLoading } = useQuery<DailyTask[]>({
     queryKey: ["/api/daily-tasks", { date: selectedDate }],
     retry: false,
   });
@@ -293,15 +294,15 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
       <CardContent>
         <div className="space-y-3">
           {tasks?.length ? (
-            tasks.map((task: any) => (
+            tasks.map((task) => (
               <div
                 key={task.id}
-                className={`flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors ${getImpactBorder(task.impact, task.isCompleted)}`}
+                className={`flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors ${getImpactBorder(task.impact, task.isCompleted || false)}`}
               >
                 <Checkbox
-                  checked={task.isCompleted}
+                  checked={task.isCompleted || false}
                   onCheckedChange={(checked) => {
-                    toggleMutation.mutate({ id: task.id, isCompleted: checked as boolean });
+                    toggleMutation.mutate({ id: task.id, isCompleted: !!checked });
                   }}
                 />
                 <div className="flex-1">
@@ -325,7 +326,7 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
                     variant="ghost"
                     size="sm"
                     onClick={() => onStartPomodoro?.(task.id, task.title)}
-                    disabled={task.isCompleted}
+                    disabled={task.isCompleted || false}
                   >
                     <Play className="w-4 h-4" />
                   </Button>

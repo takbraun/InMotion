@@ -15,6 +15,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import type { WeeklyPlan } from "@shared/schema";
 import { format, startOfWeek, addDays } from "date-fns";
 
 const prioritySchema = z.object({
@@ -43,7 +44,7 @@ export default function WeeklyPlanningSystem() {
   const weekStartString = format(currentWeekStart, "yyyy-MM-dd");
   const weekEndString = format(addDays(currentWeekStart, 6), "yyyy-MM-dd");
 
-  const { data: weeklyPlans, isLoading } = useQuery({
+  const { data: weeklyPlans, isLoading } = useQuery<WeeklyPlan[]>({
     queryKey: ["/api/weekly-plans", { weekStart: weekStartString }],
     retry: false,
   });
@@ -53,24 +54,34 @@ export default function WeeklyPlanningSystem() {
   const form = useForm<WeeklyPlanData>({
     resolver: zodResolver(weeklyPlanSchema),
     defaultValues: {
-      priorities: currentPlan?.priorities || [
+      priorities: [
         { title: "", description: "", isCompleted: false },
         { title: "", description: "", isCompleted: false },
         { title: "", description: "", isCompleted: false },
       ],
-      reflection: currentPlan?.reflection || { wentWell: "", toImprove: "" },
+      reflection: { wentWell: "", toImprove: "" },
     },
   });
 
   useEffect(() => {
     if (currentPlan) {
+      const priorities = Array.isArray(currentPlan.priorities) 
+        ? currentPlan.priorities.slice(0, 3).concat(
+            Array(3 - currentPlan.priorities.length).fill({ title: "", description: "", isCompleted: false })
+          )
+        : [
+            { title: "", description: "", isCompleted: false },
+            { title: "", description: "", isCompleted: false },
+            { title: "", description: "", isCompleted: false },
+          ];
+      
+      const reflection = currentPlan.reflection && typeof currentPlan.reflection === 'object'
+        ? currentPlan.reflection
+        : { wentWell: "", toImprove: "" };
+      
       form.reset({
-        priorities: currentPlan.priorities || [
-          { title: "", description: "", isCompleted: false },
-          { title: "", description: "", isCompleted: false },
-          { title: "", description: "", isCompleted: false },
-        ],
-        reflection: currentPlan.reflection || { wentWell: "", toImprove: "" },
+        priorities,
+        reflection,
       });
     }
   }, [currentPlan, form]);
@@ -116,8 +127,12 @@ export default function WeeklyPlanningSystem() {
 
   const togglePriorityMutation = useMutation({
     mutationFn: async ({ index, isCompleted }: { index: number; isCompleted: boolean }) => {
-      const priorities = currentPlan?.priorities || [];
-      priorities[index] = { ...priorities[index], isCompleted };
+      if (!currentPlan) return;
+      
+      const priorities = Array.isArray(currentPlan.priorities) ? [...currentPlan.priorities] : [];
+      if (priorities[index]) {
+        priorities[index] = { ...priorities[index], isCompleted };
+      }
       
       await apiRequest("PATCH", `/api/weekly-plans/${currentPlan.id}`, {
         priorities,
@@ -151,9 +166,9 @@ export default function WeeklyPlanningSystem() {
   };
 
   const calculateProgress = () => {
-    if (!currentPlan?.priorities) return 0;
-    const completed = currentPlan.priorities.filter((p: any) => p.isCompleted).length;
-    const total = currentPlan.priorities.filter((p: any) => p.title.trim()).length;
+    if (!currentPlan?.priorities || !Array.isArray(currentPlan.priorities)) return 0;
+    const completed = currentPlan.priorities.filter((p: any) => p?.isCompleted).length;
+    const total = currentPlan.priorities.filter((p: any) => p?.title?.trim()).length;
     return total > 0 ? Math.round((completed / total) * 100) : 0;
   };
 
@@ -300,7 +315,7 @@ export default function WeeklyPlanningSystem() {
           <div>
             <h3 className="font-medium text-gray-700 mb-3">Top 3 Priorities</h3>
             <div className="space-y-3">
-              {currentPlan?.priorities?.map((priority: any, index: number) => (
+              {(Array.isArray(currentPlan?.priorities) ? currentPlan.priorities : []).map((priority: any, index: number) => (
                 priority.title && (
                   <div key={index} className="flex items-start space-x-3">
                     <Checkbox
@@ -335,13 +350,13 @@ export default function WeeklyPlanningSystem() {
               <div className="p-3 bg-gray-50 rounded-lg">
                 <h4 className="text-sm font-medium text-gray-700 mb-1">What went well?</h4>
                 <p className="text-sm text-gray-600">
-                  {currentPlan?.reflection?.wentWell || "No reflection yet"}
+                  {(currentPlan?.reflection as any)?.wentWell || "No reflection yet"}
                 </p>
               </div>
               <div className="p-3 bg-gray-50 rounded-lg">
                 <h4 className="text-sm font-medium text-gray-700 mb-1">What to improve?</h4>
                 <p className="text-sm text-gray-600">
-                  {currentPlan?.reflection?.toImprove || "No reflection yet"}
+                  {(currentPlan?.reflection as any)?.toImprove || "No reflection yet"}
                 </p>
               </div>
             </div>
