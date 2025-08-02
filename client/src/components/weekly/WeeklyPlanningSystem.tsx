@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Progress } from "@/components/ui/progress";
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Calendar, ChevronRight, Edit, Plus } from "lucide-react";
@@ -366,11 +366,16 @@ export default function WeeklyPlanningSystem() {
         <div className="mt-4 pt-4 border-t border-gray-200">
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Weekly Progress</span>
-            <span className="text-sm font-medium text-secondary">
+            <span className="text-sm font-medium text-green-600">
               {calculateProgress()}% complete
             </span>
           </div>
-          <Progress value={calculateProgress()} className="mt-2" />
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-200">
+            <div 
+              className="h-full bg-green-500 transition-all duration-300 ease-in-out"
+              style={{ width: `${calculateProgress()}%` }}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>
