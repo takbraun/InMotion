@@ -3,49 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(159, 81%, 35%);
-  --secondary-foreground: hsl(60, 9.1%, 97.8%);
-  --accent: hsl(258, 80%, 69%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
+  --background: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --muted: hsl(60, 25%, 88%);
+  --muted-foreground: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
+  --popover: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --popover-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --card: hsl(60, 25%, 95%);
+  --card-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --border: hsl(60, 25%, 85%);
+  --input: hsl(60, 25%, 90%);
+  --primary: hsl(278, 43%, 49%); /* Tyrian Shimmer #9448B0 */
+  --primary-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --secondary: hsl(82, 89%, 72%); /* Mystic Green #D8F878 */
+  --secondary-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --accent: hsl(322, 66%, 69%); /* Fuchsia Blush #E47CB8 */
+  --accent-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
+  --destructive-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --ring: hsl(278, 43%, 49%); /* Tyrian Shimmer #9448B0 */
   --radius: 0.5rem;
-  --neutral: hsl(215, 16%, 47%);
+  --neutral: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
 }
 
 .dark {
-  --background: hsl(240, 10%, 3.9%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(159, 81%, 35%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(258, 80%, 69%);
-  --accent-foreground: hsl(0, 0%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
+  --background: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --muted: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
+  --muted-foreground: hsl(60, 25%, 75%);
+  --popover: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --popover-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --card: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
+  --card-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --border: hsl(260, 55%, 40%);
+  --input: hsl(260, 55%, 25%);
+  --primary: hsl(278, 43%, 60%); /* Lighter Tyrian Shimmer for dark mode */
+  --primary-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --secondary: hsl(82, 89%, 72%); /* Mystic Green #D8F878 */
+  --secondary-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --accent: hsl(322, 66%, 75%); /* Lighter Fuchsia Blush for dark mode */
+  --accent-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --ring: hsl(278, 43%, 60%); /* Lighter Tyrian Shimmer for dark mode */
   --radius: 0.5rem;
 }
 
@@ -62,7 +62,7 @@
 
 @layer utilities {
   .gradient-bg {
-    background: linear-gradient(135deg, hsl(207, 90%, 54%) 0%, hsl(258, 80%, 69%) 100%);
+    background: linear-gradient(135deg, hsl(278, 43%, 49%) 0%, hsl(322, 66%, 69%) 100%);
   }
   
   .card-shadow {
