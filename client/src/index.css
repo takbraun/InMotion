@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --background: hsl(0, 0%, 0%); /* Black */
+  --foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
   --muted: hsl(60, 25%, 88%);
   --muted-foreground: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
   --popover: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
