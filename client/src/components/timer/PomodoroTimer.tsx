@@ -242,7 +242,8 @@ export default function PomodoroTimer({ taskId, taskTitle }: PomodoroTimerProps)
             <div className="flex items-center justify-center space-x-3">
               <Button
                 onClick={toggleTimer}
-                className={timerType === "work" ? "bg-accent hover:bg-accent/90" : "bg-secondary hover:bg-secondary/90"}
+                style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                className="hover:opacity-90"
               >
                 {isRunning ? (
                   <>

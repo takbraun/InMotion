@@ -146,13 +146,17 @@ export default function QuarterlyQuestTracker() {
             Quarterly Quest
           </CardTitle>
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-muted-foreground">
               {activeQuest ? `${activeQuest.quarter} ${activeQuest.year}` : currentQuarter + " " + currentYear}
             </span>
             {!activeQuest && (
               <Dialog open={isCreating} onOpenChange={setIsCreating}>
                 <DialogTrigger asChild>
-                  <Button variant="ghost" size="sm">
+                  <Button 
+                    size="sm"
+                    style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                    className="hover:opacity-90"
+                  >
                     <Plus className="w-4 h-4" />
                   </Button>
                 </DialogTrigger>
@@ -262,7 +266,12 @@ export default function QuarterlyQuestTracker() {
                         <Button type="button" variant="outline" onClick={() => setIsCreating(false)}>
                           Cancel
                         </Button>
-                        <Button type="submit" disabled={createMutation.isPending}>
+                        <Button 
+                          type="submit" 
+                          disabled={createMutation.isPending}
+                          style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                          className="hover:opacity-90"
+                        >
                           {createMutation.isPending ? "Creating..." : "Create Quest"}
                         </Button>
                       </div>
@@ -279,7 +288,7 @@ export default function QuarterlyQuestTracker() {
           <div className="space-y-4">
             <div className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="font-medium text-gray-900">{activeQuest.title}</h3>
+                <h3 className="font-medium text-foreground">{activeQuest.title}</h3>
                 <span className="text-xs text-secondary font-medium">
                   {activeQuest.progress}% Complete
                 </span>
@@ -288,22 +297,22 @@ export default function QuarterlyQuestTracker() {
               
               <div className="space-y-3 text-sm">
                 <div>
-                  <span className="font-medium text-gray-700">Goal:</span>
-                  <p className="text-gray-600 mt-1">{activeQuest.goal}</p>
+                  <span className="font-medium text-muted-foreground">Goal:</span>
+                  <p className="text-muted-foreground mt-1">{activeQuest.goal}</p>
                 </div>
                 <div>
-                  <span className="font-medium text-gray-700">Plan:</span>
-                  <p className="text-gray-600 mt-1 whitespace-pre-wrap">{activeQuest.plan}</p>
+                  <span className="font-medium text-muted-foreground">Plan:</span>
+                  <p className="text-muted-foreground mt-1 whitespace-pre-wrap">{activeQuest.plan}</p>
                 </div>
                 <div>
-                  <span className="font-medium text-gray-700">Systems:</span>
-                  <p className="text-gray-600 mt-1 whitespace-pre-wrap">{activeQuest.systems}</p>
+                  <span className="font-medium text-muted-foreground">Systems:</span>
+                  <p className="text-muted-foreground mt-1 whitespace-pre-wrap">{activeQuest.systems}</p>
                 </div>
               </div>
               
               <div className="mt-4 pt-3 border-t border-gray-200">
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-600">Update Progress:</span>
+                  <span className="text-sm text-muted-foreground">Update Progress:</span>
                   <Input
                     type="number"
                     min="0"
@@ -317,19 +326,22 @@ export default function QuarterlyQuestTracker() {
                       }
                     }}
                   />
-                  <span className="text-sm text-gray-600">%</span>
+                  <span className="text-sm text-muted-foreground">%</span>
                 </div>
               </div>
             </div>
           </div>
         ) : (
           <div className="text-center py-8">
-            <Target className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No Active Quest</h3>
-            <p className="text-gray-600 mb-4">Create your first quarterly quest to start tracking your 90-day goals.</p>
+            <Target className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-foreground mb-2">No Active Quest</h3>
+            <p className="text-muted-foreground mb-4">Create your first quarterly quest to start tracking your 90-day goals.</p>
             <Dialog open={isCreating} onOpenChange={setIsCreating}>
               <DialogTrigger asChild>
-                <Button>
+                <Button
+                  style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                  className="hover:opacity-90"
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   Create Quest
                 </Button>
