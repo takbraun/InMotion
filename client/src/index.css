@@ -109,4 +109,24 @@
   .equal-height-card .card-shadow > div:last-child {
     flex: 1;
   }
+  
+  /* Date input styling for proper calendar icon visibility */
+  input[type="date"] {
+    color-scheme: light dark;
+  }
+  
+  .dark input[type="date"] {
+    color-scheme: dark;
+  }
+  
+  /* Ensure calendar icon is visible in both themes */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+    opacity: 0.8;
+  }
+  
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
+  }
 }
