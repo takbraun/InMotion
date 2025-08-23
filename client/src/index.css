@@ -3,49 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 0%); /* Black */
-  --foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --muted: hsl(60, 25%, 93%); /* #F0EFEB */
-  --muted-foreground: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
-  --popover: hsl(60, 25%, 93%); /* #F0EFEB */
-  --popover-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
-  --card: hsl(60, 25%, 93%); /* #F0EFEB */
-  --card-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
-  --border: hsl(60, 25%, 85%);
-  --input: hsl(60, 25%, 93%); /* #F0EFEB */
-  --primary: hsl(278, 43%, 49%); /* Tyrian Shimmer #9448B0 */
-  --primary-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --secondary: hsl(82, 89%, 72%); /* Mystic Green #D8F878 */
-  --secondary-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
-  --accent: hsl(322, 66%, 69%); /* Fuchsia Blush #E47CB8 */
-  --accent-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
+  --background: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
+  --muted: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --muted-foreground: hsl(27, 31%, 35%); /* Tyrian Purple #765A3F */
+  --popover: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --popover-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
+  --card: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --card-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
+  --border: hsl(27, 31%, 35%); /* Tyrian Purple #765A3F */
+  --input: hsl(0, 0%, 100%); /* Pure white for inputs */
+  --primary: hsl(332, 95%, 20%); /* Transporter Green #66023C */
+  --primary-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --secondary: hsl(30, 89%, 68%); /* X Marks the Spot #FBA765 */
+  --secondary-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
+  --accent: hsl(185, 100%, 16%); /* Black Chasm #004F54 */
+  --accent-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --ring: hsl(278, 43%, 49%); /* Tyrian Shimmer #9448B0 */
+  --destructive-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --ring: hsl(332, 95%, 20%); /* Transporter Green #66023C */
   --radius: 0.5rem;
-  --neutral: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
+  --neutral: hsl(27, 31%, 35%); /* Tyrian Purple #765A3F */
 }
 
 .dark {
-  --background: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
-  --foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --muted: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
-  --muted-foreground: hsl(60, 25%, 75%);
-  --popover: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
-  --popover-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --card: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
-  --card-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --border: hsl(260, 55%, 40%);
-  --input: hsl(60, 25%, 93%); /* #F0EFEB - Light background for all form inputs */
-  --primary: hsl(278, 43%, 60%); /* Lighter Tyrian Shimmer for dark mode */
-  --primary-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --secondary: hsl(82, 89%, 72%); /* Mystic Green #D8F878 */
-  --secondary-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
-  --accent: hsl(322, 66%, 75%); /* Lighter Fuchsia Blush for dark mode */
-  --accent-foreground: hsl(209, 100%, 12%); /* Maastricht Blue #001C3D */
+  --background: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
+  --foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --muted: hsl(185, 100%, 16%); /* Black Chasm #004F54 */
+  --muted-foreground: hsl(46, 25%, 80%);
+  --popover: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
+  --popover-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --card: hsl(185, 100%, 16%); /* Black Chasm #004F54 */
+  --card-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --border: hsl(27, 31%, 45%);
+  --input: hsl(0, 0%, 100%); /* Pure white for all form inputs */
+  --primary: hsl(332, 95%, 25%); /* Lighter Transporter Green for dark mode */
+  --primary-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --secondary: hsl(30, 89%, 68%); /* X Marks the Spot #FBA765 */
+  --secondary-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
+  --accent: hsl(30, 89%, 75%); /* Lighter X Marks the Spot for dark mode */
+  --accent-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
-  --ring: hsl(278, 43%, 60%); /* Lighter Tyrian Shimmer for dark mode */
+  --destructive-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --ring: hsl(332, 95%, 25%); /* Lighter Transporter Green for dark mode */
   --radius: 0.5rem;
 }
 
