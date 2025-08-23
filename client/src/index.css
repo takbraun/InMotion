@@ -137,6 +137,13 @@
     border: 1px solid black !important;
   }
   
+  /* Remove black border on focus/selected state */
+  input:focus, textarea:focus, select:focus {
+    border: 1px solid #ccc !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
   /* Ensure placeholder text is visible */
   input::placeholder, textarea::placeholder {
     color: #666 !important;
@@ -184,6 +191,28 @@
   
   /* More specific targeting for close button icon */
   button[class*="absolute"] svg {
+    color: black !important;
+  }
+  
+  /* Make form titles black */
+  [role="dialog"] h1,
+  [role="dialog"] h2, 
+  [role="dialog"] h3,
+  [role="dialog"] h4,
+  [role="dialog"] h5,
+  [role="dialog"] h6,
+  [data-radix-dialog-content] h1,
+  [data-radix-dialog-content] h2,
+  [data-radix-dialog-content] h3,
+  [data-radix-dialog-content] h4,
+  [data-radix-dialog-content] h5,
+  [data-radix-dialog-content] h6,
+  .dialog-content h1,
+  .dialog-content h2,
+  .dialog-content h3,
+  .dialog-content h4,
+  .dialog-content h5,
+  .dialog-content h6 {
     color: black !important;
   }
 }
