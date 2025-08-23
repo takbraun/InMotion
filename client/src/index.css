@@ -3,49 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
-  --muted: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --muted-foreground: hsl(27, 31%, 35%); /* Tyrian Purple #765A3F */
-  --popover: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --popover-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
-  --card: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --card-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
-  --border: hsl(27, 31%, 35%); /* Tyrian Purple #765A3F */
+  --background: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --muted: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --muted-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --popover: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --popover-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --card: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --card-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --border: hsl(200, 16%, 60%); /* Grauzone #85A3B2 */
   --input: hsl(0, 0%, 100%); /* Pure white for inputs */
-  --primary: hsl(332, 95%, 20%); /* Transporter Green #66023C */
-  --primary-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --secondary: hsl(30, 89%, 68%); /* X Marks the Spot #FBA765 */
-  --secondary-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
-  --accent: hsl(185, 100%, 16%); /* Black Chasm #004F54 */
-  --accent-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
+  --primary: hsl(320, 47%, 39%); /* Pico Eggplant #732553 */
+  --primary-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --secondary: hsl(200, 16%, 60%); /* Grauzone #85A3B2 */
+  --secondary-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --accent: hsl(200, 16%, 60%); /* Grauzone #85A3B2 */
+  --accent-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --ring: hsl(332, 95%, 20%); /* Transporter Green #66023C */
+  --destructive-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --ring: hsl(320, 47%, 39%); /* Pico Eggplant #732553 */
   --radius: 0.5rem;
-  --neutral: hsl(27, 31%, 35%); /* Tyrian Purple #765A3F */
+  --neutral: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
 }
 
 .dark {
-  --background: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
-  --foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --muted: hsl(185, 100%, 16%); /* Black Chasm #004F54 */
-  --muted-foreground: hsl(46, 25%, 80%);
-  --popover: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
-  --popover-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --card: hsl(185, 100%, 16%); /* Black Chasm #004F54 */
-  --card-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --border: hsl(27, 31%, 45%);
+  --background: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --muted: hsl(205, 32%, 30%); /* Darker Blue Whale */
+  --muted-foreground: hsl(29, 31%, 70%);
+  --popover: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --popover-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --card: hsl(205, 32%, 30%); /* Darker Blue Whale */
+  --card-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --border: hsl(200, 16%, 50%); /* Darker Grauzone */
   --input: hsl(0, 0%, 100%); /* Pure white for all form inputs */
-  --primary: hsl(332, 95%, 25%); /* Lighter Transporter Green for dark mode */
-  --primary-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --secondary: hsl(30, 89%, 68%); /* X Marks the Spot #FBA765 */
-  --secondary-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
-  --accent: hsl(30, 89%, 75%); /* Lighter X Marks the Spot for dark mode */
-  --accent-foreground: hsl(194, 100%, 16%); /* Black Chasm #102C33 */
+  --primary: hsl(320, 47%, 50%); /* Lighter Pico Eggplant for dark mode */
+  --primary-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --secondary: hsl(200, 16%, 60%); /* Grauzone #85A3B2 */
+  --secondary-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --accent: hsl(200, 16%, 70%); /* Lighter Grauzone for dark mode */
+  --accent-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(46, 25%, 94%); /* Cozy Nook #F1EFE8 */
-  --ring: hsl(332, 95%, 25%); /* Lighter Transporter Green for dark mode */
+  --destructive-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --ring: hsl(320, 47%, 50%); /* Lighter Pico Eggplant for dark mode */
   --radius: 0.5rem;
 }
 
