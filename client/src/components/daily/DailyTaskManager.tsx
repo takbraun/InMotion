@@ -213,7 +213,11 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
             />
             <Dialog open={isCreating} onOpenChange={setIsCreating}>
               <DialogTrigger asChild>
-                <Button size="sm">
+                <Button 
+                  size="sm"
+                  style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                  className="hover:opacity-90"
+                >
                   <Plus className="w-4 h-4 mr-1" />
                   Add Task
                 </Button>
@@ -348,7 +352,10 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
               <p className="text-muted-foreground mb-4">Add your first task to start focusing on what matters.</p>
               <Dialog open={isCreating} onOpenChange={setIsCreating}>
                 <DialogTrigger asChild>
-                  <Button>
+                  <Button
+                    style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                    className="hover:opacity-90"
+                  >
                     <Plus className="w-4 h-4 mr-2" />
                     Add First Task
                   </Button>

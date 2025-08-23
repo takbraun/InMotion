@@ -181,18 +181,20 @@ export default function PomodoroTimer({ taskId, taskTitle }: PomodoroTimerProps)
           </CardTitle>
           <div className="flex items-center space-x-2">
             <Button
-              variant={timerType === "work" ? "default" : "outline"}
               size="sm"
               onClick={() => switchTimerType("work")}
               disabled={isRunning}
+              style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+              className="hover:opacity-90"
             >
               25 min
             </Button>
             <Button
-              variant={timerType === "break" ? "default" : "outline"}
               size="sm"
               onClick={() => switchTimerType("break")}
               disabled={isRunning}
+              style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+              className="hover:opacity-90"
             >
               5 min
             </Button>
