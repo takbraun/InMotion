@@ -222,14 +222,14 @@ export default function PomodoroTimer({ taskId, taskTitle }: PomodoroTimerProps)
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-foreground">
                 {formatTime(timeLeft)}
               </span>
             </div>
           </div>
 
           <div className="space-y-3">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-muted-foreground">
               {timerType === "work" 
                 ? currentTaskTitle 
                   ? `Working on: ${currentTaskTitle}`
@@ -254,11 +254,19 @@ export default function PomodoroTimer({ taskId, taskTitle }: PomodoroTimerProps)
                   </>
                 )}
               </Button>
-              <Button variant="outline" onClick={stopTimer}>
+              <Button 
+                onClick={stopTimer}
+                style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                className="hover:opacity-90"
+              >
                 <Square className="w-4 h-4 mr-2" />
                 Stop
               </Button>
-              <Button variant="outline" onClick={resetTimer}>
+              <Button 
+                onClick={resetTimer}
+                style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                className="hover:opacity-90"
+              >
                 <RotateCcw className="w-4 h-4 mr-2" />
                 Reset
               </Button>
@@ -266,15 +274,15 @@ export default function PomodoroTimer({ taskId, taskTitle }: PomodoroTimerProps)
           </div>
         </div>
 
-        <div className="mt-6 pt-4 border-t border-gray-200">
+        <div className="mt-6 pt-4 border-t border-border">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">Today's Focus Time</span>
-            <span className="font-medium text-gray-900">
+            <span className="text-muted-foreground">Today's Focus Time</span>
+            <span className="font-medium text-foreground">
               {stats?.totalFocusTime ? `${Math.floor(stats.totalFocusTime / 60)}h ${stats.totalFocusTime % 60}m` : "0h 0m"}
             </span>
           </div>
           <div className="flex items-center justify-between text-sm mt-1">
-            <span className="text-gray-600">Pomodoros Completed</span>
+            <span className="text-muted-foreground">Pomodoros Completed</span>
             <span className="font-medium text-secondary">
               {stats?.completedPomodoros || 0}
             </span>
