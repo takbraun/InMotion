@@ -284,7 +284,12 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
                       <Button type="button" variant="outline" onClick={() => setIsCreating(false)}>
                         Cancel
                       </Button>
-                      <Button type="submit" disabled={createMutation.isPending}>
+                      <Button 
+                        type="submit" 
+                        disabled={createMutation.isPending}
+                        style={{ backgroundColor: '#1E3442', color: 'white', borderColor: '#1E3442' }}
+                        className="hover:opacity-90"
+                      >
                         {createMutation.isPending ? "Creating..." : "Create Task"}
                       </Button>
                     </div>
