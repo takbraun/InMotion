@@ -36,7 +36,7 @@
   --card: hsl(260, 55%, 31%); /* Deep Space Rodeo #332277 */
   --card-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
   --border: hsl(260, 55%, 40%);
-  --input: hsl(260, 55%, 25%);
+  --input: hsl(60, 25%, 93%); /* #F0EFEB - Light background for all form inputs */
   --primary: hsl(278, 43%, 60%); /* Lighter Tyrian Shimmer for dark mode */
   --primary-foreground: hsl(60, 25%, 93%); /* White Picket Fence #F0EFEB */
   --secondary: hsl(82, 89%, 72%); /* Mystic Green #D8F878 */
@@ -128,5 +128,17 @@
   .dark input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
     opacity: 0.8;
+  }
+  
+  /* Ensure form inputs have proper light background and dark text */
+  input, textarea, select {
+    background-color: #F0EFEB !important;
+    color: #001C3D !important; /* Dark blue text for readability */
+  }
+  
+  /* Ensure placeholder text is visible */
+  input::placeholder, textarea::placeholder {
+    color: #666 !important;
+    opacity: 0.7;
   }
 }
