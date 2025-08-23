@@ -155,6 +155,12 @@
     background-color: #F0EFEB !important;
   }
   
+  /* Ensure proper overlay background that grays out the screen */
+  [data-radix-dialog-overlay] {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(2px);
+  }
+  
   /* Target Radix Dialog Content specifically */
   [data-radix-dialog-content] {
     background-color: #F0EFEB !important;
@@ -184,17 +190,29 @@
     color: #001C3D !important;
   }
   
-  /* Make close button (X) black */
+  /* Make close button (X) black and visible */
   button[class*="absolute"][class*="right-4"][class*="top-4"] {
     color: black !important;
+    opacity: 1 !important;
   }
   
   /* More specific targeting for close button icon */
   button[class*="absolute"] svg {
     color: black !important;
+    stroke: black !important;
   }
   
-  /* Make form titles black */
+  /* Target specific close button patterns */
+  [data-radix-dialog-content] button[class*="absolute"] {
+    color: black !important;
+  }
+  
+  [data-radix-dialog-content] button[class*="absolute"] svg {
+    color: black !important;
+    stroke: black !important;
+  }
+  
+  /* Make all dialog titles and labels black */
   [role="dialog"] h1,
   [role="dialog"] h2, 
   [role="dialog"] h3,
@@ -212,7 +230,21 @@
   .dialog-content h3,
   .dialog-content h4,
   .dialog-content h5,
-  .dialog-content h6 {
+  .dialog-content h6,
+  [data-radix-dialog-content] [data-radix-dialog-title],
+  [role="dialog"] label,
+  [data-radix-dialog-content] label {
     color: black !important;
+  }
+  
+  /* Ensure form fields are bright white */
+  [role="dialog"] input,
+  [role="dialog"] textarea,
+  [role="dialog"] select,
+  [data-radix-dialog-content] input,
+  [data-radix-dialog-content] textarea,
+  [data-radix-dialog-content] select {
+    background-color: white !important;
+    color: #001C3D !important;
   }
 }
