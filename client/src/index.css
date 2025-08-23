@@ -3,49 +3,58 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
-  --muted: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --muted-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
-  --popover: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --popover-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
-  --card: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --card-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
-  --border: hsl(200, 16%, 60%); /* Grauzone #85A3B2 */
-  --input: hsl(0, 0%, 100%); /* Pure white for inputs */
-  --primary: hsl(320, 47%, 39%); /* Pico Eggplant #732553 */
-  --primary-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --secondary: hsl(200, 16%, 60%); /* Grauzone #85A3B2 */
-  --secondary-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
-  --accent: hsl(200, 16%, 60%); /* Grauzone #85A3B2 */
-  --accent-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  /* Brand Colors */
+  --color-black: #142030;        /* Primary text */
+  --color-tan: #E9D8C8;          /* Background */
+  --color-blue-whale: #1E3442;   /* Headings / Nav */
+  --color-eggplant: #732553;     /* Secondary brand */
+  --color-strawberry: #FF5C8D;   /* CTA, accents */
+  --color-grauzone: #85A3B2;     /* Borders, inactive states */
+
+  /* Tailwind CSS Variables */
+  --background: hsl(29, 31%, 85%); /* Tan */
+  --foreground: hsl(210, 40%, 14%); /* Black */
+  --muted: hsl(29, 31%, 85%); /* Tan */
+  --muted-foreground: hsl(210, 40%, 14%); /* Black */
+  --popover: hsl(0, 0%, 100%); /* White */
+  --popover-foreground: hsl(210, 40%, 14%); /* Black */
+  --card: hsl(0, 0%, 100%); /* White */
+  --card-foreground: hsl(210, 40%, 14%); /* Black */
+  --border: hsl(200, 16%, 60%); /* Grauzone */
+  --input: hsl(0, 0%, 100%); /* White */
+  --primary: hsl(338, 100%, 68%); /* Strawberry */
+  --primary-foreground: hsl(0, 0%, 100%); /* White */
+  --secondary: hsl(320, 47%, 39%); /* Eggplant */
+  --secondary-foreground: hsl(0, 0%, 100%); /* White */
+  --accent: hsl(338, 100%, 68%); /* Strawberry */
+  --accent-foreground: hsl(0, 0%, 100%); /* White */
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --ring: hsl(320, 47%, 39%); /* Pico Eggplant #732553 */
+  --destructive-foreground: hsl(0, 0%, 100%); /* White */
+  --ring: hsl(338, 100%, 68%); /* Strawberry */
   --radius: 0.5rem;
-  --neutral: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --neutral: hsl(205, 32%, 25%); /* Blue Whale */
 }
 
 .dark {
-  --background: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
-  --foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --background: hsl(205, 32%, 25%); /* Blue Whale */
+  --foreground: hsl(29, 31%, 85%); /* Tan */
   --muted: hsl(205, 32%, 30%); /* Darker Blue Whale */
   --muted-foreground: hsl(29, 31%, 70%);
-  --popover: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
-  --popover-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --card: hsl(205, 32%, 30%); /* Darker Blue Whale */
-  --card-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
+  --popover: hsl(205, 32%, 30%); /* Darker Blue Whale */
+  --popover-foreground: hsl(29, 31%, 85%); /* Tan */
+  --card: hsl(210, 40%, 20%); /* Darker than Blue Whale */
+  --card-foreground: hsl(29, 31%, 85%); /* Tan */
   --border: hsl(200, 16%, 50%); /* Darker Grauzone */
   --input: hsl(0, 0%, 100%); /* Pure white for all form inputs */
-  --primary: hsl(320, 47%, 50%); /* Lighter Pico Eggplant for dark mode */
-  --primary-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --secondary: hsl(200, 16%, 60%); /* Grauzone #85A3B2 */
-  --secondary-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
-  --accent: hsl(200, 16%, 70%); /* Lighter Grauzone for dark mode */
-  --accent-foreground: hsl(205, 32%, 25%); /* Blue Whale #1E3442 */
+  --primary: hsl(338, 100%, 68%); /* Strawberry */
+  --primary-foreground: hsl(0, 0%, 100%); /* White */
+  --secondary: hsl(320, 47%, 50%); /* Lighter Eggplant for dark mode */
+  --secondary-foreground: hsl(0, 0%, 100%); /* White */
+  --accent: hsl(338, 100%, 68%); /* Strawberry */
+  --accent-foreground: hsl(0, 0%, 100%); /* White */
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(29, 31%, 85%); /* Siesta Tan #E9D8C8 */
-  --ring: hsl(320, 47%, 50%); /* Lighter Pico Eggplant for dark mode */
+  --destructive-foreground: hsl(0, 0%, 100%); /* White */
+  --ring: hsl(338, 100%, 68%); /* Strawberry */
   --radius: 0.5rem;
 }
 
@@ -54,19 +63,63 @@
     @apply border-border;
   }
 
+  /* Backgrounds */
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    background-color: var(--color-tan);
+    color: var(--color-black);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* Headings */
+  h1, h2, h3 {
+    color: var(--color-blue-whale);
   }
 }
 
 @layer utilities {
+  /* Hero section highlight */
+  .hero h1 span {
+    color: var(--color-eggplant);
+  }
+
+  /* Buttons */
+  .button-primary {
+    background-color: var(--color-strawberry);
+    color: white;
+  }
+
+  .button-primary:hover {
+    background-color: var(--color-eggplant);
+  }
+
+  .button-secondary {
+    background-color: var(--color-eggplant);
+    color: white;
+  }
+
+  .button-secondary:hover {
+    background-color: var(--color-blue-whale);
+  }
+
+  /* Cards */
+  .card {
+    background-color: white;
+    border: 1px solid var(--color-grauzone);
+  }
+
+  /* Progress bars / highlights */
+  .progress {
+    background-color: var(--color-strawberry);
+  }
+
   .gradient-bg {
-    background: linear-gradient(135deg, hsl(278, 43%, 49%) 0%, hsl(322, 66%, 69%) 100%);
+    background: linear-gradient(135deg, var(--color-strawberry) 0%, var(--color-eggplant) 100%);
   }
   
   .card-shadow {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    background-color: white;
+    border: 1px solid var(--color-grauzone);
   }
   
   .card-shadow:hover {
@@ -75,6 +128,7 @@
   
   .progress-bar {
     transition: width 0.3s ease-in-out;
+    background-color: var(--color-strawberry);
   }
   
   .collapsible-content {
@@ -152,7 +206,7 @@
   
   /* Force all dialog content to have light background */
   [role="dialog"], .dialog-content, [data-state="open"] {
-    background-color: #F0EFEB !important;
+    background-color: var(--color-tan) !important;
   }
   
   /* Ensure proper overlay background that grays out the screen */
@@ -163,31 +217,31 @@
   
   /* Target Radix Dialog Content specifically */
   [data-radix-dialog-content] {
-    background-color: #F0EFEB !important;
-    color: #001C3D !important;
+    background-color: var(--color-tan) !important;
+    color: var(--color-black) !important;
   }
   
   /* Override bg-background class specifically for dialogs */
   .bg-background[data-radix-dialog-content] {
-    background-color: #F0EFEB !important;
+    background-color: var(--color-tan) !important;
   }
   
   /* Additional selectors for dialog components */
   div[role="dialog"],
   [data-overlay],
   [data-content] {
-    background-color: #F0EFEB !important;
+    background-color: var(--color-tan) !important;
   }
   
   /* Broad override for any dialog-related elements */
   .bg-background {
-    background-color: #F0EFEB !important;
+    background-color: var(--color-tan) !important;
   }
   
   /* Override any dark backgrounds in modal/dialog contexts */
   [class*="dialog"] {
-    background-color: #F0EFEB !important;
-    color: #001C3D !important;
+    background-color: var(--color-tan) !important;
+    color: var(--color-black) !important;
   }
   
   /* Make close button (X) black and visible */
