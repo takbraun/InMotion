@@ -187,9 +187,9 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
         </CardHeader>
         <CardContent>
           <div className="animate-pulse space-y-4">
-            <div className="h-16 bg-gray-200 rounded"></div>
-            <div className="h-16 bg-gray-200 rounded"></div>
-            <div className="h-16 bg-gray-200 rounded"></div>
+            <div className="h-16 bg-muted rounded"></div>
+            <div className="h-16 bg-muted rounded"></div>
+            <div className="h-16 bg-muted rounded"></div>
           </div>
         </CardContent>
       </Card>
@@ -297,7 +297,7 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
             tasks.map((task) => (
               <div
                 key={task.id}
-                className={`flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors ${getImpactBorder(task.impact, task.isCompleted || false)}`}
+                className={`flex items-center space-x-3 p-3 border rounded-lg hover:bg-muted transition-colors ${getImpactBorder(task.impact, task.isCompleted || false)}`}
               >
                 <Checkbox
                   checked={task.isCompleted || false}
@@ -306,7 +306,7 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
                   }}
                 />
                 <div className="flex-1">
-                  <p className={`text-gray-900 font-medium ${task.isCompleted ? 'line-through' : ''}`}>
+                  <p className={`text-foreground font-medium ${task.isCompleted ? 'line-through' : ''}`}>
                     {task.title}
                   </p>
                   <div className="flex items-center space-x-2 mt-1">
@@ -318,7 +318,7 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
                     </span>
                   </div>
                   {task.description && (
-                    <p className="text-sm text-gray-600 mt-1">{task.description}</p>
+                    <p className="text-sm text-muted-foreground mt-1">{task.description}</p>
                   )}
                 </div>
                 <div className="flex items-center space-x-2">
@@ -343,9 +343,9 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
             ))
           ) : (
             <div className="text-center py-8">
-              <CheckCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No tasks for today</h3>
-              <p className="text-gray-600 mb-4">Add your first task to start focusing on what matters.</p>
+              <CheckCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-foreground mb-2">No tasks for today</h3>
+              <p className="text-muted-foreground mb-4">Add your first task to start focusing on what matters.</p>
               <Dialog open={isCreating} onOpenChange={setIsCreating}>
                 <DialogTrigger asChild>
                   <Button>
