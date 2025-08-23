@@ -210,6 +210,12 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
               className="w-40"
+              style={{ 
+                backgroundColor: '#1E3442', 
+                color: 'white', 
+                borderColor: '#1E3442',
+                cursor: 'pointer'
+              }}
             />
             <Dialog open={isCreating} onOpenChange={setIsCreating}>
               <DialogTrigger asChild>
