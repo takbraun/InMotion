@@ -141,4 +141,38 @@
     color: #666 !important;
     opacity: 0.7;
   }
+  
+  /* Force all dialog content to have light background */
+  [role="dialog"], .dialog-content, [data-state="open"] {
+    background-color: #F0EFEB !important;
+  }
+  
+  /* Target Radix Dialog Content specifically */
+  [data-radix-dialog-content] {
+    background-color: #F0EFEB !important;
+    color: #001C3D !important;
+  }
+  
+  /* Override bg-background class specifically for dialogs */
+  .bg-background[data-radix-dialog-content] {
+    background-color: #F0EFEB !important;
+  }
+  
+  /* Additional selectors for dialog components */
+  div[role="dialog"],
+  [data-overlay],
+  [data-content] {
+    background-color: #F0EFEB !important;
+  }
+  
+  /* Broad override for any dialog-related elements */
+  .bg-background {
+    background-color: #F0EFEB !important;
+  }
+  
+  /* Override any dark backgrounds in modal/dialog contexts */
+  [class*="dialog"] {
+    background-color: #F0EFEB !important;
+    color: #001C3D !important;
+  }
 }
