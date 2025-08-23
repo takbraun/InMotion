@@ -130,10 +130,11 @@
     opacity: 0.8;
   }
   
-  /* Ensure form inputs have proper light background and dark text */
+  /* Ensure form inputs have proper white background and dark text with black borders */
   input, textarea, select {
-    background-color: #F0EFEB !important;
+    background-color: white !important;
     color: #001C3D !important; /* Dark blue text for readability */
+    border: 1px solid black !important;
   }
   
   /* Ensure placeholder text is visible */
@@ -174,5 +175,15 @@
   [class*="dialog"] {
     background-color: #F0EFEB !important;
     color: #001C3D !important;
+  }
+  
+  /* Make close button (X) black */
+  button[class*="absolute"][class*="right-4"][class*="top-4"] {
+    color: black !important;
+  }
+  
+  /* More specific targeting for close button icon */
+  button[class*="absolute"] svg {
+    color: black !important;
   }
 }
