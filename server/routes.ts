@@ -9,6 +9,7 @@ import {
   insertDailyTaskSchema,
   insertPomodoroSessionSchema,
   insertDailyReflectionSchema,
+  insertErrorLogSchema,
 } from "@shared/schema";
 import { z } from "zod";
 
@@ -224,6 +225,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating/updating daily reflection:", error);
       res.status(400).json({ message: "Invalid daily reflection data" });
+    }
+  });
+
+  // Error logging route
+  app.post("/api/error-logs", async (req: any, res) => {
+    try {
+      const validatedData = insertErrorLogSchema.parse(req.body);
+      const errorLog = await storage.createErrorLog(validatedData);
+      res.json(errorLog);
+    } catch (error) {
+      console.error("Error logging error:", error);
+      res.status(400).json({ message: "Invalid error log data" });
     }
   });
 

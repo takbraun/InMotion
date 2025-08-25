@@ -15,6 +15,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import { showSuccessNotification, showErrorNotification, showDeleteSuccessNotification, showDeleteErrorNotification } from "@/lib/notifications";
 import type { DailyTask } from "@shared/schema";
 import { format } from "date-fns";
 
@@ -35,6 +36,11 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
   const [isCreating, setIsCreating] = useState(false);
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const { toast } = useToast();
+
+  const { data: user } = useQuery<{id: string}>({
+    queryKey: ["/api/auth/user"],
+    retry: false,
+  });
 
   const { data: tasks, isLoading } = useQuery<DailyTask[]>({
     queryKey: ["/api/daily-tasks", { date: selectedDate }],
@@ -64,12 +70,9 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
         impact: "medium",
         date: selectedDate,
       });
-      toast({
-        title: "Success",
-        description: "Task created successfully",
-      });
+      showSuccessNotification('todays_focus');
     },
-    onError: (error) => {
+    onError: async (error) => {
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -81,11 +84,7 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
         }, 500);
         return;
       }
-      toast({
-        title: "Error",
-        description: "Failed to create task",
-        variant: "destructive",
-      });
+      await showErrorNotification('todays_focus', error, user?.id);
     },
   });
 
@@ -120,12 +119,9 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/daily-tasks"] });
-      toast({
-        title: "Success",
-        description: "Task deleted successfully",
-      });
+      showDeleteSuccessNotification("task");
     },
-    onError: (error) => {
+    onError: async (error) => {
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -137,11 +133,7 @@ export default function DailyTaskManager({ onStartPomodoro }: DailyTaskManagerPr
         }, 500);
         return;
       }
-      toast({
-        title: "Error",
-        description: "Failed to delete task",
-        variant: "destructive",
-      });
+      await showDeleteErrorNotification("task", error, user?.id);
     },
   });
 

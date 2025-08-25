@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { showSuccessNotification, showErrorNotification } from "@/lib/notifications";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import type { VisionPlan } from "@shared/schema";
@@ -34,6 +35,11 @@ export default function VisionPlanningModule() {
     retry: false,
   });
 
+  const { data: user } = useQuery<{id: string}>({
+    queryKey: ["/api/auth/user"],
+    retry: false,
+  });
+
   const form = useForm<VisionFormData>({
     resolver: zodResolver(visionFormSchema),
     defaultValues: {
@@ -50,12 +56,9 @@ export default function VisionPlanningModule() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/vision"] });
       setIsEditing(false);
-      toast({
-        title: "Success",
-        description: "Vision plan updated successfully",
-      });
+      showSuccessNotification('life_compass');
     },
-    onError: (error) => {
+    onError: async (error) => {
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -67,11 +70,7 @@ export default function VisionPlanningModule() {
         }, 500);
         return;
       }
-      toast({
-        title: "Error",
-        description: "Failed to update vision plan",
-        variant: "destructive",
-      });
+      await showErrorNotification('life_compass', error, user?.id);
     },
   });
 

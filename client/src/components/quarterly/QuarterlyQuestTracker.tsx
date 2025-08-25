@@ -14,6 +14,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import { showSuccessNotification, showErrorNotification } from "@/lib/notifications";
 import type { QuarterlyQuest } from "@shared/schema";
 
 const questFormSchema = z.object({
@@ -30,6 +31,11 @@ type QuestFormData = z.infer<typeof questFormSchema>;
 export default function QuarterlyQuestTracker() {
   const [isCreating, setIsCreating] = useState(false);
   const { toast } = useToast();
+  
+  const { data: user } = useQuery<{id: string}>({
+    queryKey: ["/api/auth/user"],
+    retry: false,
+  });
   
   const currentYear = new Date().getFullYear();
   const currentQuarter = `Q${Math.ceil((new Date().getMonth() + 1) / 3)}`;
@@ -61,12 +67,9 @@ export default function QuarterlyQuestTracker() {
       queryClient.invalidateQueries({ queryKey: ["/api/quarterly-quests"] });
       setIsCreating(false);
       form.reset();
-      toast({
-        title: "Success",
-        description: "Quarterly quest created successfully",
-      });
+      showSuccessNotification('quarterly_quest');
     },
-    onError: (error) => {
+    onError: async (error) => {
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -78,11 +81,7 @@ export default function QuarterlyQuestTracker() {
         }, 500);
         return;
       }
-      toast({
-        title: "Error",
-        description: "Failed to create quarterly quest",
-        variant: "destructive",
-      });
+      await showErrorNotification('quarterly_quest', error, user?.id);
     },
   });
 
@@ -92,8 +91,9 @@ export default function QuarterlyQuestTracker() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/quarterly-quests"] });
+      showSuccessNotification('quarterly_quest');
     },
-    onError: (error) => {
+    onError: async (error) => {
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -105,11 +105,7 @@ export default function QuarterlyQuestTracker() {
         }, 500);
         return;
       }
-      toast({
-        title: "Error",
-        description: "Failed to update progress",
-        variant: "destructive",
-      });
+      await showErrorNotification('quarterly_quest', error, user?.id);
     },
   });
 

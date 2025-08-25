@@ -6,6 +6,7 @@ import {
   dailyTasks,
   pomodoroSessions,
   dailyReflections,
+  errorLogs,
   type User, 
   type UpsertUser,
   type VisionPlan,
@@ -19,7 +20,9 @@ import {
   type PomodoroSession,
   type InsertPomodoroSession,
   type DailyReflection,
-  type InsertDailyReflection
+  type InsertDailyReflection,
+  type ErrorLog,
+  type InsertErrorLog
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, sql } from "drizzle-orm";
@@ -61,6 +64,9 @@ export interface IStorage {
   // Daily reflection methods
   getDailyReflection(userId: string, date: string): Promise<DailyReflection | undefined>;
   upsertDailyReflection(reflection: InsertDailyReflection): Promise<DailyReflection>;
+  
+  // Error logging methods
+  createErrorLog(errorLog: InsertErrorLog): Promise<ErrorLog>;
 }
 
 // Database storage implementation
@@ -306,6 +312,15 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return created;
     }
+  }
+
+  // Error logging methods
+  async createErrorLog(errorLog: InsertErrorLog): Promise<ErrorLog> {
+    const [result] = await db
+      .insert(errorLogs)
+      .values(errorLog)
+      .returning();
+    return result;
   }
 }
 

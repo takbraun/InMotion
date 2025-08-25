@@ -13,6 +13,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import { showSuccessNotification, showErrorNotification } from "@/lib/notifications";
 import type { DailyReflection } from "@shared/schema";
 import { format } from "date-fns";
 
@@ -27,6 +28,11 @@ type ReflectionFormData = z.infer<typeof reflectionFormSchema>;
 export default function DailyReflection() {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
+  
+  const { data: user } = useQuery<{id: string}>({
+    queryKey: ["/api/auth/user"],
+    retry: false,
+  });
   
   const today = format(new Date(), "yyyy-MM-dd");
 
@@ -53,12 +59,9 @@ export default function DailyReflection() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/daily-reflections"] });
-      toast({
-        title: "Success",
-        description: "Daily reflection saved",
-      });
+      showSuccessNotification('daily_reflection');
     },
-    onError: (error) => {
+    onError: async (error) => {
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -70,11 +73,7 @@ export default function DailyReflection() {
         }, 500);
         return;
       }
-      toast({
-        title: "Error",
-        description: "Failed to save reflection",
-        variant: "destructive",
-      });
+      await showErrorNotification('daily_reflection', error, user?.id);
     },
   });
 

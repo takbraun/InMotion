@@ -15,6 +15,7 @@ import { z } from "zod";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import { showSuccessNotification, showErrorNotification } from "@/lib/notifications";
 import type { WeeklyPlan } from "@shared/schema";
 import { format, startOfWeek, addDays } from "date-fns";
 
@@ -40,6 +41,11 @@ export default function WeeklyPlanningSystem() {
     startOfWeek(new Date(), { weekStartsOn: 1 })
   );
   const { toast } = useToast();
+
+  const { data: user } = useQuery<{id: string}>({
+    queryKey: ["/api/auth/user"],
+    retry: false,
+  });
 
   const weekStartString = format(currentWeekStart, "yyyy-MM-dd");
   const weekEndString = format(addDays(currentWeekStart, 6), "yyyy-MM-dd");
@@ -100,12 +106,9 @@ export default function WeeklyPlanningSystem() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/weekly-plans"] });
       setIsEditing(false);
-      toast({
-        title: "Success",
-        description: "Weekly plan updated successfully",
-      });
+      showSuccessNotification('weekly_planning');
     },
-    onError: (error) => {
+    onError: async (error) => {
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -117,11 +120,7 @@ export default function WeeklyPlanningSystem() {
         }, 500);
         return;
       }
-      toast({
-        title: "Error",
-        description: "Failed to update weekly plan",
-        variant: "destructive",
-      });
+      await showErrorNotification('weekly_planning', error, user?.id);
     },
   });
 

@@ -115,6 +115,17 @@ export const dailyReflections = pgTable("daily_reflections", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Error logs for troubleshooting
+export const errorLogs = pgTable("error_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id, { onDelete: "set null" }),
+  blockType: varchar("block_type").notNull(), // "life_compass", "weekly_planning", etc.
+  errorMessage: text("error_message").notNull(),
+  errorStack: text("error_stack"),
+  errorDetails: jsonb("error_details"), // Additional context
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   visionPlans: many(visionPlans),
@@ -123,6 +134,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   dailyTasks: many(dailyTasks),
   pomodoroSessions: many(pomodoroSessions),
   dailyReflections: many(dailyReflections),
+  errorLogs: many(errorLogs),
 }));
 
 export const visionPlansRelations = relations(visionPlans, ({ one }) => ({
@@ -182,6 +194,13 @@ export const dailyReflectionsRelations = relations(dailyReflections, ({ one }) =
   }),
 }));
 
+export const errorLogsRelations = relations(errorLogs, ({ one }) => ({
+  user: one(users, {
+    fields: [errorLogs.userId],
+    references: [users.id],
+  }),
+}));
+
 // Insert schemas
 export const insertVisionPlanSchema = createInsertSchema(visionPlans).omit({
   id: true,
@@ -219,6 +238,11 @@ export const insertDailyReflectionSchema = createInsertSchema(dailyReflections).
   updatedAt: true,
 });
 
+export const insertErrorLogSchema = createInsertSchema(errorLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
 // User insert schema
 export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
@@ -241,3 +265,5 @@ export type PomodoroSession = typeof pomodoroSessions.$inferSelect;
 export type InsertPomodoroSession = z.infer<typeof insertPomodoroSessionSchema>;
 export type DailyReflection = typeof dailyReflections.$inferSelect;
 export type InsertDailyReflection = z.infer<typeof insertDailyReflectionSchema>;
+export type ErrorLog = typeof errorLogs.$inferSelect;
+export type InsertErrorLog = z.infer<typeof insertErrorLogSchema>;
