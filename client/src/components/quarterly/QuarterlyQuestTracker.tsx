@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -58,6 +58,19 @@ export default function QuarterlyQuestTracker() {
       year: currentYear,
     },
   });
+
+  useEffect(() => {
+    if (activeQuest) {
+      form.reset({
+        title: activeQuest.title || "",
+        goal: activeQuest.goal || "",
+        plan: activeQuest.plan || "",
+        systems: activeQuest.systems || "",
+        quarter: activeQuest.quarter || currentQuarter,
+        year: activeQuest.year || currentYear,
+      });
+    }
+  }, [activeQuest, form, currentQuarter, currentYear]);
 
   const createMutation = useMutation({
     mutationFn: async (data: QuestFormData) => {

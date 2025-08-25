@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -43,11 +43,21 @@ export default function VisionPlanningModule() {
   const form = useForm<VisionFormData>({
     resolver: zodResolver(visionFormSchema),
     defaultValues: {
-      coreValues: visionPlan?.coreValues || [],
-      threeYearVision: visionPlan?.threeYearVision || "",
-      whyEngine: visionPlan?.whyEngine || "",
+      coreValues: [],
+      threeYearVision: "",
+      whyEngine: "",
     },
   });
+
+  useEffect(() => {
+    if (visionPlan) {
+      form.reset({
+        coreValues: visionPlan.coreValues || [],
+        threeYearVision: visionPlan.threeYearVision || "",
+        whyEngine: visionPlan.whyEngine || "",
+      });
+    }
+  }, [visionPlan, form]);
 
   const mutation = useMutation({
     mutationFn: async (data: VisionFormData) => {

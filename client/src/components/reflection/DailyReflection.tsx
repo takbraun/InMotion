@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -44,11 +44,21 @@ export default function DailyReflection() {
   const form = useForm<ReflectionFormData>({
     resolver: zodResolver(reflectionFormSchema),
     defaultValues: {
-      reflection: reflection?.reflection || "",
-      tomorrowPriority: reflection?.tomorrowPriority || "",
-      energyLevel: reflection?.energyLevel || 3,
+      reflection: "",
+      tomorrowPriority: "",
+      energyLevel: 3,
     },
   });
+
+  useEffect(() => {
+    if (reflection) {
+      form.reset({
+        reflection: reflection.reflection || "",
+        tomorrowPriority: reflection.tomorrowPriority || "",
+        energyLevel: reflection.energyLevel || 3,
+      });
+    }
+  }, [reflection, form]);
 
   const mutation = useMutation({
     mutationFn: async (data: ReflectionFormData) => {
