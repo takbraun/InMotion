@@ -314,9 +314,7 @@ export default function WeeklyPlanningSystem() {
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="font-medium text-gray-700 mb-3">
-              Top 3 Priorities - Week of {format(currentWeekStart, "MMMM do")} through {format(addDays(currentWeekStart, 6), "MMMM do")}
-            </h3>
+            <h3 className="font-medium text-gray-700 mb-3">Top 3 Priorities</h3>
             <div className="space-y-3">
               {(Array.isArray(currentPlan?.priorities) ? currentPlan.priorities : []).map((priority: any, index: number) => (
                 priority.title && (
