@@ -222,7 +222,9 @@ export default function WeeklyPlanningSystem() {
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div>
-                      <h3 className="font-medium text-gray-700 mb-3">Top 3 Priorities</h3>
+                      <h3 className="font-medium text-gray-700 mb-3">
+                        Top 3 Priorities - Week of {format(currentWeekStart, "MMMM do")} through {format(addDays(currentWeekStart, 6), "MMMM do")}
+                      </h3>
                       {[0, 1, 2].map((index) => (
                         <div key={index} className="space-y-2 mb-4">
                           <FormField
@@ -264,7 +266,7 @@ export default function WeeklyPlanningSystem() {
                         name="reflection.wentWell"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>What went well?</FormLabel>
+                            <FormLabel>What went well last week?</FormLabel>
                             <FormControl>
                               <Textarea 
                                 placeholder="Reflect on your successes this week..."
@@ -281,7 +283,7 @@ export default function WeeklyPlanningSystem() {
                         name="reflection.toImprove"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>What to improve?</FormLabel>
+                            <FormLabel>What to improve from last week?</FormLabel>
                             <FormControl>
                               <Textarea 
                                 placeholder="What could be better next week?"
@@ -312,7 +314,9 @@ export default function WeeklyPlanningSystem() {
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="font-medium text-gray-700 mb-3">Top 3 Priorities</h3>
+            <h3 className="font-medium text-gray-700 mb-3">
+              Top 3 Priorities - Week of {format(currentWeekStart, "MMMM do")} through {format(addDays(currentWeekStart, 6), "MMMM do")}
+            </h3>
             <div className="space-y-3">
               {(Array.isArray(currentPlan?.priorities) ? currentPlan.priorities : []).map((priority: any, index: number) => (
                 priority.title && (
