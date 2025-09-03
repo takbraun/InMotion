@@ -197,7 +197,7 @@ export default function WeeklyPlanningSystem() {
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center">
             <Calendar className="text-primary mr-2 w-5 h-5" />
-            Weekly Planning - Week of {format(currentWeekStart, "MMM d")} - {format(addDays(currentWeekStart, 6), "MMM d")}
+            Weekly Planning
           </CardTitle>
           <div className="flex items-center space-x-2">
             <Button variant="ghost" size="sm" onClick={() => navigateWeek("prev")}>
@@ -312,8 +312,7 @@ export default function WeeklyPlanningSystem() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-6">
-          {/* Top 3 Priorities Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h3 className="font-medium text-gray-700 mb-3">Top 3 Priorities</h3>
             <div className="space-y-3">
@@ -345,40 +344,38 @@ export default function WeeklyPlanningSystem() {
               )}
             </div>
           </div>
-
-          {/* Weekly Progress Section */}
-          <div className="pt-4 border-t border-gray-200">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Weekly Progress</span>
-              <span className="text-sm font-medium text-green-600">
-                {calculateProgress()}% complete
-              </span>
-            </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-200">
-              <div 
-                className="h-full bg-green-500 transition-all duration-300 ease-in-out"
-                style={{ width: `${calculateProgress()}%` }}
-              />
-            </div>
-          </div>
           
-          {/* Weekly Reflection Section */}
-          <div className="pt-4 border-t border-gray-200">
+          <div>
             <h3 className="font-medium text-gray-700 mb-3">Weekly Reflection</h3>
             <div className="space-y-3">
               <div className="p-3 bg-gray-50 rounded-lg">
-                <h4 className="text-sm font-medium text-gray-700 mb-1">What went well last week?</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-1">What went well?</h4>
                 <p className="text-sm text-gray-600">
                   {(currentPlan?.reflection as any)?.wentWell || "No reflection yet"}
                 </p>
               </div>
               <div className="p-3 bg-gray-50 rounded-lg">
-                <h4 className="text-sm font-medium text-gray-700 mb-1">What to improve from last week?</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-1">What to improve?</h4>
                 <p className="text-sm text-gray-600">
                   {(currentPlan?.reflection as any)?.toImprove || "No reflection yet"}
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+        
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-600">Weekly Progress</span>
+            <span className="text-sm font-medium text-green-600">
+              {calculateProgress()}% complete
+            </span>
+          </div>
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-200">
+            <div 
+              className="h-full bg-green-500 transition-all duration-300 ease-in-out"
+              style={{ width: `${calculateProgress()}%` }}
+            />
           </div>
         </div>
       </CardContent>
