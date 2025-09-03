@@ -51,7 +51,8 @@ export default function WeeklyPlanningSystem() {
   const weekEndString = format(addDays(currentWeekStart, 6), "yyyy-MM-dd");
 
   const { data: weeklyPlans, isLoading } = useQuery<WeeklyPlan[]>({
-    queryKey: ["/api/weekly-plans", { weekStart: weekStartString }],
+    queryKey: ["/api/weekly-plans", weekStartString],
+    queryFn: () => fetch(`/api/weekly-plans?weekStart=${weekStartString}`).then(res => res.json()),
     retry: false,
   });
 
