@@ -232,7 +232,7 @@ export default function WeeklyPlanningSystem() {
                               <FormItem>
                                 <FormControl>
                                   <Input 
-                                    placeholder={`Priority ${index + 1} title`}
+                                    placeholder={`Priority ${index + 1}`}
                                     {...field}
                                   />
                                 </FormControl>
