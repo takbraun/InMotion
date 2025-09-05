@@ -4,9 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { BookOpen, ChevronDown, ChevronUp, Star } from "lucide-react";
+import { BookOpen, Star } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -26,7 +25,6 @@ const reflectionFormSchema = z.object({
 type ReflectionFormData = z.infer<typeof reflectionFormSchema>;
 
 export default function DailyReflection() {
-  const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   
   const { data: user } = useQuery<{id: string}>({
@@ -134,26 +132,13 @@ export default function DailyReflection() {
 
   return (
     <Card className="card-shadow">
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center">
-              <BookOpen className="text-neutral mr-2 w-5 h-5" />
-              Daily Reflection
-            </CardTitle>
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm">
-                {isOpen ? (
-                  <ChevronUp className="w-4 h-4" />
-                ) : (
-                  <ChevronDown className="w-4 h-4" />
-                )}
-              </Button>
-            </CollapsibleTrigger>
-          </div>
-        </CardHeader>
-        <CollapsibleContent>
-          <CardContent>
+      <CardHeader>
+        <CardTitle className="flex items-center">
+          <BookOpen className="text-neutral mr-2 w-5 h-5" />
+          Daily Reflection
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
@@ -211,9 +196,7 @@ export default function DailyReflection() {
                 </div>
               </form>
             </Form>
-          </CardContent>
-        </CollapsibleContent>
-      </Collapsible>
+      </CardContent>
     </Card>
   );
 }
