@@ -338,7 +338,7 @@ export default function QuarterlyQuestsPage() {
                                   type="number" 
                                   min={2024} 
                                   max={2030}
-                                  {...field}
+                                  value={field.value}
                                   onChange={(e) => field.onChange(parseInt(e.target.value) || currentYear)}
                                 />
                               </FormControl>
