@@ -1,0 +1,44 @@
+hook.js:608 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}. Error Component Stack
+    at DescriptionWarning (@radix-ui_react-dialog.js?v=b82f88ef:331:29)
+    at @radix-ui_react-dialog.js?v=b82f88ef:235:13
+    at @radix-ui_react-dialog.js?v=b82f88ef:158:58
+    at Presence (chunk-YN3QL25T.js?v=b82f88ef:24:11)
+    at @radix-ui_react-dialog.js?v=b82f88ef:149:64
+    at chunk-EVLBUYTV.js?v=b82f88ef:79:13
+    at chunk-EVLBUYTV.js?v=b82f88ef:56:13
+    at chunk-BOL2CCOG.js?v=b82f88ef:42:13
+    at chunk-UQHGR4RG.js?v=b82f88ef:258:22
+    at Presence (chunk-YN3QL25T.js?v=b82f88ef:24:11)
+    at Provider (chunk-OXZDJRWN.js?v=b82f88ef:38:15)
+    at DialogPortal (@radix-ui_react-dialog.js?v=b82f88ef:111:11)
+    at _c3 (dialog.tsx:36:6)
+    at Provider (chunk-OXZDJRWN.js?v=b82f88ef:38:15)
+    at Dialog (@radix-ui_react-dialog.js?v=b82f88ef:52:5)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at AppLayout (AppLayout.tsx:14:37)
+    at VisionBoardPage (vision-board.tsx:57:32)
+    at Route (wouter.js?v=b82f88ef:323:16)
+    at Switch (wouter.js?v=b82f88ef:379:17)
+    at Router (App.tsx:16:42)
+    at Provider (chunk-OXZDJRWN.js?v=b82f88ef:38:15)
+    at TooltipProvider (@radix-ui_react-tooltip.js?v=b82f88ef:61:5)
+    at QueryClientProvider (@tanstack_react-query.js?v=b82f88ef:2805:3)
+    at App (<anonymous>)
+overrideMethod @ hook.js:608
+(anonymous) @ @radix-ui_react-dialog.js?v=b82f88ef:339
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=b82f88ef:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=b82f88ef:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=b82f88ef:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=b82f88ef:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=b82f88ef:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=b82f88ef:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=b82f88ef:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=b82f88ef:19416
+commitRoot @ chunk-RPCDYKBN.js?v=b82f88ef:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=b82f88ef:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=b82f88ef:9119
+(anonymous) @ chunk-RPCDYKBN.js?v=b82f88ef:18627

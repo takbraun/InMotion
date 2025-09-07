@@ -252,22 +252,25 @@ export default function VisionBoardPage() {
                   Add Vision Card
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-lg">
+              <DialogContent className="max-w-lg" aria-describedby="create-dialog-description">
                 <DialogHeader>
                   <DialogTitle>Create Vision Card</DialogTitle>
                 </DialogHeader>
+                <p id="create-dialog-description" className="sr-only">Create a new vision card with title, description, image, and category.</p>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Title</label>
+                    <label htmlFor="create-title" className="block text-sm font-medium mb-2">Title</label>
                     <Input
+                      id="create-title"
                       placeholder="e.g., Dream Home"
                       value={newCard.title}
                       onChange={(e) => setNewCard({ ...newCard, title: e.target.value })}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Description</label>
+                    <label htmlFor="create-description" className="block text-sm font-medium mb-2">Description</label>
                     <Textarea
+                      id="create-description"
                       placeholder="Describe your vision in detail..."
                       value={newCard.description}
                       onChange={(e) => setNewCard({ ...newCard, description: e.target.value })}
@@ -280,8 +283,9 @@ export default function VisionBoardPage() {
                     onImageRemoved={() => setNewCard({ ...newCard, imageUrl: '' })}
                   />
                   <div>
-                    <label className="block text-sm font-medium mb-2">Category</label>
+                    <label htmlFor="create-category" className="block text-sm font-medium mb-2">Category</label>
                     <select
+                      id="create-category"
                       value={newCard.category}
                       onChange={(e) => setNewCard({ ...newCard, category: e.target.value as any })}
                       className="w-full p-2 border rounded-md"
@@ -405,21 +409,24 @@ export default function VisionBoardPage() {
         {/* Edit Card Dialog */}
         {editingCard && (
           <Dialog open={!!editingCard} onOpenChange={() => {}}>
-            <DialogContent className="max-w-lg" onInteractOutside={(e) => e.preventDefault()}>
+            <DialogContent className="max-w-lg" onInteractOutside={(e) => e.preventDefault()} aria-describedby="edit-dialog-description">
               <DialogHeader>
                 <DialogTitle>Edit Vision Card</DialogTitle>
               </DialogHeader>
+              <p id="edit-dialog-description" className="sr-only">Edit your vision card details including title, description, image, and category.</p>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Title</label>
+                  <label htmlFor="edit-title" className="block text-sm font-medium mb-2">Title</label>
                   <Input
+                    id="edit-title"
                     value={editingCard.title}
                     onChange={(e) => setEditingCard({ ...editingCard, title: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Description</label>
+                  <label htmlFor="edit-description" className="block text-sm font-medium mb-2">Description</label>
                   <Textarea
+                    id="edit-description"
                     value={editingCard.description}
                     onChange={(e) => setEditingCard({ ...editingCard, description: e.target.value })}
                     rows={3}
@@ -431,8 +438,9 @@ export default function VisionBoardPage() {
                   onImageRemoved={() => setEditingCard({ ...editingCard, imageUrl: undefined })}
                 />
                 <div>
-                  <label className="block text-sm font-medium mb-2">Category</label>
+                  <label htmlFor="edit-category" className="block text-sm font-medium mb-2">Category</label>
                   <select
+                    id="edit-category"
                     value={editingCard.category}
                     onChange={(e) => setEditingCard({ ...editingCard, category: e.target.value as any })}
                     className="w-full p-2 border rounded-md"
