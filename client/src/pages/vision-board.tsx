@@ -83,6 +83,12 @@ export default function VisionBoardPage() {
   const handleDragStart = (e: React.DragEvent, cardId: string) => {
     setDraggedCard(cardId);
     e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', cardId);
+    
+    // Create a drag image (optional, improves UX)
+    const dragElement = e.currentTarget as HTMLElement;
+    const rect = dragElement.getBoundingClientRect();
+    e.dataTransfer.setDragImage(dragElement, rect.width / 2, rect.height / 2);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -90,18 +96,31 @@ export default function VisionBoardPage() {
     e.dataTransfer.dropEffect = 'move';
   };
 
+  const handleDragEnd = () => {
+    setDraggedCard(null);
+  };
+
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    if (!draggedCard) return;
+    e.stopPropagation();
+    
+    const cardId = e.dataTransfer.getData('text/plain');
+    if (!cardId) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left - 100; // Center the card
-    const y = e.clientY - rect.top - 50;
+    const x = e.clientX - rect.left - 96; // Half width of card (192px / 2)
+    const y = e.clientY - rect.top - 60; // Approximate half height
 
     setVisionCards(cards =>
       cards.map(card =>
-        card.id === draggedCard
-          ? { ...card, position: { x: Math.max(0, x), y: Math.max(0, y) } }
+        card.id === cardId
+          ? { 
+              ...card, 
+              position: { 
+                x: Math.max(0, Math.min(x, rect.width - 192)), // Keep within bounds
+                y: Math.max(0, Math.min(y, rect.height - 120)) 
+              } 
+            }
           : card
       )
     );
@@ -256,14 +275,16 @@ export default function VisionBoardPage() {
                     key={card.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, card.id)}
+                    onDragEnd={handleDragEnd}
                     className={`
                       absolute w-48 p-4 bg-white rounded-lg shadow-md cursor-move transform transition-transform hover:scale-105 hover:shadow-lg border-l-4
-                      ${draggedCard === card.id ? 'opacity-50' : ''}
+                      ${draggedCard === card.id ? 'opacity-50 scale-95' : ''}
                       ${colorClass.split(' ')[2]} // border color
                     `}
                     style={{
                       left: card.position.x,
                       top: card.position.y,
+                      zIndex: draggedCard === card.id ? 10 : 1,
                     }}
                   >
                     <div className="flex items-start justify-between mb-2">
