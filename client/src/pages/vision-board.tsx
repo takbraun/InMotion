@@ -404,8 +404,8 @@ export default function VisionBoardPage() {
 
         {/* Edit Card Dialog */}
         {editingCard && (
-          <Dialog open={!!editingCard} onOpenChange={() => setEditingCard(null)}>
-            <DialogContent className="max-w-lg">
+          <Dialog open={!!editingCard} onOpenChange={() => {}}>
+            <DialogContent className="max-w-lg" onInteractOutside={(e) => e.preventDefault()}>
               <DialogHeader>
                 <DialogTitle>Edit Vision Card</DialogTitle>
               </DialogHeader>

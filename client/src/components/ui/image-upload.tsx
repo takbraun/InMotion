@@ -14,42 +14,72 @@ interface ImageUploadProps {
 // Compress image to reduce file size and storage costs
 const compressImage = (file: File, maxWidth = 400, maxHeight = 300, quality = 0.8): Promise<Blob> => {
   return new Promise((resolve, reject) => {
+    console.log('Starting compression for file:', file.name, 'size:', file.size);
+    
     const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      reject(new Error('Canvas context not available'));
+      return;
+    }
+    
     const img = new Image();
     
     img.onload = () => {
-      // Calculate new dimensions while maintaining aspect ratio
-      let { width, height } = img;
-      
-      if (width > height) {
-        if (width > maxWidth) {
-          height = (height * maxWidth) / width;
-          width = maxWidth;
-        }
-      } else {
-        if (height > maxHeight) {
-          width = (width * maxHeight) / height;
-          height = maxHeight;
-        }
-      }
-      
-      canvas.width = width;
-      canvas.height = height;
-      
-      // Draw and compress
-      ctx.drawImage(img, 0, 0, width, height);
-      canvas.toBlob((blob) => {
-        if (blob) {
-          resolve(blob);
+      try {
+        console.log('Image loaded, original size:', img.width, 'x', img.height);
+        
+        // Calculate new dimensions while maintaining aspect ratio
+        let { width, height } = img;
+        
+        if (width > height) {
+          if (width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
         } else {
-          reject(new Error('Failed to compress image'));
+          if (height > maxHeight) {
+            width = (width * maxHeight) / height;
+            height = maxHeight;
+          }
         }
-      }, 'image/jpeg', quality);
+        
+        console.log('Resizing to:', width, 'x', height);
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // Draw and compress
+        ctx.clearRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        canvas.toBlob((blob) => {
+          if (blob) {
+            console.log('Compression successful, new size:', blob.size);
+            resolve(blob);
+          } else {
+            reject(new Error('Failed to create compressed blob'));
+          }
+        }, 'image/jpeg', quality);
+      } catch (error) {
+        console.error('Error during compression:', error);
+        reject(error);
+      }
     };
     
-    img.onerror = () => reject(new Error('Failed to load image'));
-    img.src = URL.createObjectURL(file);
+    img.onerror = (error) => {
+      console.error('Image load error:', error);
+      reject(new Error('Failed to load image for compression'));
+    };
+    
+    // Use createObjectURL for better mobile compatibility
+    const objectUrl = URL.createObjectURL(file);
+    img.src = objectUrl;
+    
+    // Clean up object URL after a timeout as fallback
+    setTimeout(() => {
+      URL.revokeObjectURL(objectUrl);
+    }, 10000);
   });
 };
 
@@ -111,21 +141,32 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
       }
 
       // Upload compressed image directly to object storage
-      console.log('Uploading to object storage...');
+      console.log('Uploading to object storage...', 'Blob size:', compressedBlob.size);
+      console.log('Upload URL:', uploadURL.substring(0, 100) + '...');
+      
       const uploadResult = await fetch(uploadURL, {
         method: 'PUT',
         body: compressedBlob,
         headers: {
           'Content-Type': 'image/jpeg',
         },
+        // Add timeout and other fetch options for better mobile compatibility
+        signal: AbortSignal.timeout(30000), // 30 second timeout
       });
 
       console.log('Upload result:', uploadResult.status, uploadResult.statusText);
       if (!uploadResult.ok) {
-        const errorText = await uploadResult.text();
+        let errorText = 'No error details available';
+        try {
+          errorText = await uploadResult.text();
+        } catch (e) {
+          console.log('Could not read error response:', e);
+        }
         console.error('Upload failed with status:', uploadResult.status, errorText);
-        throw new Error(`Upload failed: ${uploadResult.status} ${uploadResult.statusText}`);
+        throw new Error(`Upload failed: ${uploadResult.status} - ${errorText || uploadResult.statusText}`);
       }
+      
+      console.log('Upload to object storage successful!');
 
       // Update server with the uploaded image info
       console.log('Updating server with image info...');
