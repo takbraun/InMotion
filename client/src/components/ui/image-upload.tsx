@@ -85,23 +85,34 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
 
     try {
       setIsUploading(true);
+      console.log('Starting image upload process...');
 
       // Compress the image
+      console.log('Compressing image...');
       const compressedBlob = await compressImage(file);
       
       if (!compressedBlob) {
         throw new Error("Failed to compress image");
       }
+      console.log('Image compressed successfully, size:', compressedBlob.size);
 
       // Create preview
       const previewUrl = URL.createObjectURL(compressedBlob);
       setPreviewUrl(previewUrl);
 
       // Get upload URL from server
+      console.log('Getting upload URL from server...');
       const uploadResponse = await apiRequest("POST", "/api/objects/upload") as unknown as { uploadURL: string };
+      console.log('Upload response:', uploadResponse);
+      
+      const { uploadURL } = uploadResponse;
+      if (!uploadURL) {
+        throw new Error('No upload URL received from server');
+      }
 
       // Upload compressed image directly to object storage
-      const uploadResult = await fetch(uploadResponse.uploadURL, {
+      console.log('Uploading to object storage...');
+      const uploadResult = await fetch(uploadURL, {
         method: 'PUT',
         body: compressedBlob,
         headers: {
@@ -109,16 +120,26 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
         },
       });
 
+      console.log('Upload result:', uploadResult.status, uploadResult.statusText);
       if (!uploadResult.ok) {
-        throw new Error('Upload failed');
+        const errorText = await uploadResult.text();
+        console.error('Upload failed with status:', uploadResult.status, errorText);
+        throw new Error(`Upload failed: ${uploadResult.status} ${uploadResult.statusText}`);
       }
 
       // Update server with the uploaded image info
+      console.log('Updating server with image info...');
       const updateResponse = await apiRequest("PUT", "/api/vision-images", {
-        imageURL: uploadResponse.uploadURL.split('?')[0], // Remove query parameters
+        imageURL: uploadURL.split('?')[0], // Remove query parameters
       }) as unknown as { objectPath: string };
+      console.log('Update response:', updateResponse);
 
-      onImageUploaded(updateResponse.objectPath);
+      const { objectPath } = updateResponse;
+      if (!objectPath) {
+        throw new Error('No object path received from server');
+      }
+
+      onImageUploaded(objectPath);
       
       toast({
         title: "Image uploaded successfully!",
@@ -127,9 +148,10 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
 
     } catch (error) {
       console.error('Upload error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       toast({
         title: "Upload failed",
-        description: "There was an error uploading your image. Please try again.",
+        description: `Error: ${errorMessage}. Please try again.`,
         variant: "destructive"
       });
       setPreviewUrl(null);

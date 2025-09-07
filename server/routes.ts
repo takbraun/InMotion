@@ -247,27 +247,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get upload URL for image
   app.post("/api/objects/upload", isAuthenticated, async (req: any, res) => {
     try {
+      console.log('Getting upload URL for user:', req.user?.claims?.sub);
       const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+      console.log('Generated upload URL successfully');
       res.json({ uploadURL });
     } catch (error) {
       console.error("Error getting upload URL:", error);
-      res.status(500).json({ message: "Failed to get upload URL" });
+      res.status(500).json({ message: "Failed to get upload URL", error: (error as Error).message });
     }
   });
 
   // Update server with uploaded image info
   app.put("/api/vision-images", isAuthenticated, async (req: any, res) => {
     try {
+      console.log('Processing uploaded image info:', req.body);
       const { imageURL } = req.body;
       if (!imageURL) {
+        console.log('Missing imageURL in request');
         return res.status(400).json({ error: "imageURL is required" });
       }
 
       const objectPath = objectStorageService.normalizeObjectEntityPath(imageURL);
+      console.log('Generated object path:', objectPath);
       res.json({ objectPath });
     } catch (error) {
       console.error("Error processing image:", error);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ error: "Internal server error", message: (error as Error).message });
     }
   });
 
