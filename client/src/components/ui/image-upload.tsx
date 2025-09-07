@@ -119,9 +119,21 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
       setPreviewUrl(previewUrl);
 
       // Get upload URL from server
-      const uploadResponse = await apiRequest("POST", "/api/objects/upload") as unknown as { uploadURL: string };
+      const response = await fetch('/api/objects/upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
       
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+      
+      const uploadResponse = await response.json();
       const { uploadURL } = uploadResponse;
+      
       if (!uploadURL) {
         throw new Error('No upload URL received from server');
       }
@@ -141,11 +153,24 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
       }
 
       // Update server with the uploaded image info
-      const updateResponse = await apiRequest("PUT", "/api/vision-images", {
-        imageURL: uploadURL.split('?')[0], // Remove query parameters
-      }) as unknown as { objectPath: string };
-
-      const { objectPath } = updateResponse;
+      const updateResponse = await fetch('/api/vision-images', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          imageURL: uploadURL.split('?')[0], // Remove query parameters
+        }),
+      });
+      
+      if (!updateResponse.ok) {
+        throw new Error(`Server error: ${updateResponse.status}`);
+      }
+      
+      const updateData = await updateResponse.json();
+      const { objectPath } = updateData;
+      
       if (!objectPath) {
         throw new Error('No object path received from server');
       }
