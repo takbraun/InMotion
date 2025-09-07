@@ -150,8 +150,6 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
         headers: {
           'Content-Type': 'image/jpeg',
         },
-        // Add timeout and other fetch options for better mobile compatibility
-        signal: AbortSignal.timeout(30000), // 30 second timeout
       });
 
       console.log('Upload result:', uploadResult.status, uploadResult.statusText);
