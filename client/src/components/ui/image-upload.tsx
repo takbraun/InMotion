@@ -14,8 +14,6 @@ interface ImageUploadProps {
 // Compress image to reduce file size and storage costs
 const compressImage = (file: File, maxWidth = 400, maxHeight = 300, quality = 0.8): Promise<Blob> => {
   return new Promise((resolve, reject) => {
-    console.log('Starting compression for file:', file.name, 'size:', file.size);
-    
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) {
@@ -27,8 +25,6 @@ const compressImage = (file: File, maxWidth = 400, maxHeight = 300, quality = 0.
     
     img.onload = () => {
       try {
-        console.log('Image loaded, original size:', img.width, 'x', img.height);
-        
         // Calculate new dimensions while maintaining aspect ratio
         let { width, height } = img;
         
@@ -44,8 +40,6 @@ const compressImage = (file: File, maxWidth = 400, maxHeight = 300, quality = 0.
           }
         }
         
-        console.log('Resizing to:', width, 'x', height);
-        
         canvas.width = width;
         canvas.height = height;
         
@@ -55,20 +49,17 @@ const compressImage = (file: File, maxWidth = 400, maxHeight = 300, quality = 0.
         
         canvas.toBlob((blob) => {
           if (blob) {
-            console.log('Compression successful, new size:', blob.size);
             resolve(blob);
           } else {
             reject(new Error('Failed to create compressed blob'));
           }
         }, 'image/jpeg', quality);
       } catch (error) {
-        console.error('Error during compression:', error);
         reject(error);
       }
     };
     
-    img.onerror = (error) => {
-      console.error('Image load error:', error);
+    img.onerror = () => {
       reject(new Error('Failed to load image for compression'));
     };
     
@@ -115,25 +106,20 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
 
     try {
       setIsUploading(true);
-      console.log('Starting image upload process...');
 
       // Compress the image
-      console.log('Compressing image...');
       const compressedBlob = await compressImage(file);
       
       if (!compressedBlob) {
         throw new Error("Failed to compress image");
       }
-      console.log('Image compressed successfully, size:', compressedBlob.size);
 
       // Create preview
       const previewUrl = URL.createObjectURL(compressedBlob);
       setPreviewUrl(previewUrl);
 
       // Get upload URL from server
-      console.log('Getting upload URL from server...');
       const uploadResponse = await apiRequest("POST", "/api/objects/upload") as unknown as { uploadURL: string };
-      console.log('Upload response:', uploadResponse);
       
       const { uploadURL } = uploadResponse;
       if (!uploadURL) {
@@ -141,9 +127,6 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
       }
 
       // Upload compressed image directly to object storage
-      console.log('Uploading to object storage...', 'Blob size:', compressedBlob.size);
-      console.log('Upload URL:', uploadURL.substring(0, 100) + '...');
-      
       const uploadResult = await fetch(uploadURL, {
         method: 'PUT',
         body: compressedBlob,
@@ -152,26 +135,15 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
         },
       });
 
-      console.log('Upload result:', uploadResult.status, uploadResult.statusText);
       if (!uploadResult.ok) {
-        let errorText = 'No error details available';
-        try {
-          errorText = await uploadResult.text();
-        } catch (e) {
-          console.log('Could not read error response:', e);
-        }
-        console.error('Upload failed with status:', uploadResult.status, errorText);
-        throw new Error(`Upload failed: ${uploadResult.status} - ${errorText || uploadResult.statusText}`);
+        const errorText = await uploadResult.text().catch(() => 'Network error');
+        throw new Error(`Upload failed: ${uploadResult.status} - ${errorText}`);
       }
-      
-      console.log('Upload to object storage successful!');
 
       // Update server with the uploaded image info
-      console.log('Updating server with image info...');
       const updateResponse = await apiRequest("PUT", "/api/vision-images", {
         imageURL: uploadURL.split('?')[0], // Remove query parameters
       }) as unknown as { objectPath: string };
-      console.log('Update response:', updateResponse);
 
       const { objectPath } = updateResponse;
       if (!objectPath) {
@@ -186,7 +158,6 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved, 
       });
 
     } catch (error) {
-      console.error('Upload error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       toast({
         title: "Upload failed",

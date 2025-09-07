@@ -355,20 +355,24 @@ export default function VisionBoardPage() {
                       {/* Action buttons overlay */}
                       <div className="absolute top-1 right-1 flex space-x-1">
                         <button
-                          onClick={(e) => {
+                          onPointerDown={(e) => e.stopPropagation()}
+                          onPointerUp={(e) => {
                             e.stopPropagation();
                             startEditing(card);
                           }}
-                          className="w-6 h-6 bg-black bg-opacity-50 rounded-full flex items-center justify-center text-white hover:bg-opacity-70"
+                          className="w-6 h-6 bg-black bg-opacity-50 rounded-full flex items-center justify-center text-white hover:bg-opacity-70 z-20"
+                          style={{ touchAction: 'auto' }}
                         >
                           <Edit className="w-3 h-3" />
                         </button>
                         <button
-                          onClick={(e) => {
+                          onPointerDown={(e) => e.stopPropagation()}
+                          onPointerUp={(e) => {
                             e.stopPropagation();
                             removeCard(card.id);
                           }}
-                          className="w-6 h-6 bg-black bg-opacity-50 rounded-full flex items-center justify-center text-white hover:bg-opacity-70"
+                          className="w-6 h-6 bg-black bg-opacity-50 rounded-full flex items-center justify-center text-white hover:bg-opacity-70 z-20"
+                          style={{ touchAction: 'auto' }}
                         >
                           <X className="w-3 h-3" />
                         </button>
