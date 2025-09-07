@@ -6,10 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Sparkles, Plus, ArrowRight, CheckCircle, Target, Heart, Star, Edit, Upload, X, Image } from "lucide-react";
+import { Sparkles, Plus, ArrowRight, CheckCircle, Target, Heart, Star, Edit, X, Image } from "lucide-react";
 import { useLocation } from "wouter";
 import type { VisionPlan } from "@shared/schema";
 import AppLayout from "@/components/layout/AppLayout";
+import { ImageUpload } from "@/components/ui/image-upload";
 
 interface VisionCard {
   id: string;
@@ -273,14 +274,11 @@ export default function VisionBoardPage() {
                       rows={3}
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Image URL (optional)</label>
-                    <Input
-                      placeholder="https://example.com/image.jpg"
-                      value={newCard.imageUrl}
-                      onChange={(e) => setNewCard({ ...newCard, imageUrl: e.target.value })}
-                    />
-                  </div>
+                  <ImageUpload
+                    onImageUploaded={(imageUrl) => setNewCard({ ...newCard, imageUrl })}
+                    currentImageUrl={newCard.imageUrl}
+                    onImageRemoved={() => setNewCard({ ...newCard, imageUrl: '' })}
+                  />
                   <div>
                     <label className="block text-sm font-medium mb-2">Category</label>
                     <select
@@ -427,14 +425,11 @@ export default function VisionBoardPage() {
                     rows={3}
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Image URL (optional)</label>
-                  <Input
-                    placeholder="https://example.com/image.jpg"
-                    value={editingCard.imageUrl || ''}
-                    onChange={(e) => setEditingCard({ ...editingCard, imageUrl: e.target.value })}
-                  />
-                </div>
+                <ImageUpload
+                  onImageUploaded={(imageUrl) => setEditingCard({ ...editingCard, imageUrl })}
+                  currentImageUrl={editingCard.imageUrl}
+                  onImageRemoved={() => setEditingCard({ ...editingCard, imageUrl: undefined })}
+                />
                 <div>
                   <label className="block text-sm font-medium mb-2">Category</label>
                   <select

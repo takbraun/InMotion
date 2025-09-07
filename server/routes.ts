@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
+import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 import {
   insertVisionPlanSchema,
   insertQuarterlyQuestSchema,
@@ -237,6 +238,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error logging error:", error);
       res.status(400).json({ message: "Invalid error log data" });
+    }
+  });
+
+  // Object Storage routes for image uploads
+  const objectStorageService = new ObjectStorageService();
+
+  // Get upload URL for image
+  app.post("/api/objects/upload", isAuthenticated, async (req: any, res) => {
+    try {
+      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+      res.json({ uploadURL });
+    } catch (error) {
+      console.error("Error getting upload URL:", error);
+      res.status(500).json({ message: "Failed to get upload URL" });
+    }
+  });
+
+  // Update server with uploaded image info
+  app.put("/api/vision-images", isAuthenticated, async (req: any, res) => {
+    try {
+      const { imageURL } = req.body;
+      if (!imageURL) {
+        return res.status(400).json({ error: "imageURL is required" });
+      }
+
+      const objectPath = objectStorageService.normalizeObjectEntityPath(imageURL);
+      res.json({ objectPath });
+    } catch (error) {
+      console.error("Error processing image:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Serve uploaded images
+  app.get("/objects/:objectPath(*)", async (req: any, res) => {
+    try {
+      const objectFile = await objectStorageService.getObjectEntityFile(req.path);
+      objectStorageService.downloadObject(objectFile, res);
+    } catch (error) {
+      console.error("Error serving object:", error);
+      if (error instanceof ObjectNotFoundError) {
+        return res.sendStatus(404);
+      }
+      return res.sendStatus(500);
     }
   });
 
