@@ -48,7 +48,7 @@ app.use((req, res, next) => {
   } else {
     serveStatic(app);                         // serves dist/public/*
     app.get("*", (_req, res) => {             // <-- SPA CATCH-ALL (AFTER static)
-      res.sendFile(path.join(process.cwd(), "dist/public/index.html"));
+      res.sendFile(path.resolve("dist/public/index.html"));
     });
   }
 
