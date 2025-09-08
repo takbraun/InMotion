@@ -1,7 +1,6 @@
 import { 
   users, 
   visionPlans,
-  visionCards,
   quarterlyQuests,
   weeklyPlans,
   dailyTasks,
@@ -12,8 +11,6 @@ import {
   type UpsertUser,
   type VisionPlan,
   type InsertVisionPlan,
-  type VisionCard,
-  type InsertVisionCard,
   type QuarterlyQuest,
   type InsertQuarterlyQuest,
   type WeeklyPlan,
@@ -39,12 +36,6 @@ export interface IStorage {
   // Vision plan methods
   getVisionPlan(userId: string): Promise<VisionPlan | undefined>;
   upsertVisionPlan(visionPlan: InsertVisionPlan): Promise<VisionPlan>;
-  
-  // Vision card methods
-  getVisionCards(userId: string): Promise<VisionCard[]>;
-  createVisionCard(visionCard: InsertVisionCard): Promise<VisionCard>;
-  updateVisionCard(cardId: string, visionCard: InsertVisionCard): Promise<VisionCard | undefined>;
-  deleteVisionCard(cardId: string, userId: string): Promise<boolean>;
   
   // Quarterly quest methods
   getQuarterlyQuests(userId: string): Promise<QuarterlyQuest[]>;
@@ -133,47 +124,6 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return created;
     }
-  }
-
-  // Vision card methods
-  async getVisionCards(userId: string): Promise<VisionCard[]> {
-    return await db
-      .select()
-      .from(visionCards)
-      .where(eq(visionCards.userId, userId));
-  }
-
-  async createVisionCard(visionCard: InsertVisionCard): Promise<VisionCard> {
-    const [result] = await db
-      .insert(visionCards)
-      .values(visionCard)
-      .returning();
-    return result;
-  }
-
-  async updateVisionCard(cardId: string, visionCard: InsertVisionCard): Promise<VisionCard | undefined> {
-    const [result] = await db
-      .update(visionCards)
-      .set({
-        title: visionCard.title,
-        description: visionCard.description,
-        category: visionCard.category,
-        imageUrl: visionCard.imageUrl,
-        positionX: visionCard.positionX,
-        positionY: visionCard.positionY,
-        updatedAt: sql`now()`
-      })
-      .where(and(eq(visionCards.id, cardId), eq(visionCards.userId, visionCard.userId)))
-      .returning();
-    return result;
-  }
-
-  async deleteVisionCard(cardId: string, userId: string): Promise<boolean> {
-    const result = await db
-      .delete(visionCards)
-      .where(and(eq(visionCards.id, cardId), eq(visionCards.userId, userId)))
-      .returning({ id: visionCards.id });
-    return result.length > 0;
   }
 
   // Quarterly quest methods

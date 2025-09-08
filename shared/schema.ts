@@ -47,20 +47,6 @@ export const visionPlans = pgTable("vision_plans", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Vision board cards
-export const visionCards = pgTable("vision_cards", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  title: varchar("title").notNull(),
-  description: text("description").notNull(),
-  category: varchar("category").notNull(), // career, health, relationships, personal, financial
-  imageUrl: varchar("image_url"),
-  positionX: integer("position_x").notNull(),
-  positionY: integer("position_y").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
 // Quarterly quests (90-day goals)
 export const quarterlyQuests = pgTable("quarterly_quests", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -252,12 +238,6 @@ export const insertDailyReflectionSchema = createInsertSchema(dailyReflections).
   updatedAt: true,
 });
 
-export const insertVisionCardSchema = createInsertSchema(visionCards).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
 export const insertErrorLogSchema = createInsertSchema(errorLogs).omit({
   id: true,
   createdAt: true,
@@ -285,7 +265,5 @@ export type PomodoroSession = typeof pomodoroSessions.$inferSelect;
 export type InsertPomodoroSession = z.infer<typeof insertPomodoroSessionSchema>;
 export type DailyReflection = typeof dailyReflections.$inferSelect;
 export type InsertDailyReflection = z.infer<typeof insertDailyReflectionSchema>;
-export type VisionCard = typeof visionCards.$inferSelect;
-export type InsertVisionCard = z.infer<typeof insertVisionCardSchema>;
 export type ErrorLog = typeof errorLogs.$inferSelect;
 export type InsertErrorLog = z.infer<typeof insertErrorLogSchema>;

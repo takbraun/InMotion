@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,14 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Sparkles, Plus, ArrowRight, CheckCircle, Target, Heart, Star, Edit, X, Image } from "lucide-react";
 import { useLocation } from "wouter";
-import { useToast } from "@/hooks/use-toast";
-import type { VisionPlan, VisionCard as DbVisionCard } from "@shared/schema";
+import type { VisionPlan } from "@shared/schema";
 import AppLayout from "@/components/layout/AppLayout";
 import { ImageUpload } from "@/components/ui/image-upload";
 
-// Extend database VisionCard type with position object for UI
-interface VisionCard extends Omit<DbVisionCard, 'positionX' | 'positionY' | 'userId' | 'createdAt' | 'updatedAt'> {
+interface VisionCard {
+  id: string;
+  title: string;
+  description: string;
+  category: 'career' | 'health' | 'relationships' | 'personal' | 'financial';
   position: { x: number; y: number };
+  imageUrl?: string;
 }
 
 const categoryIcons = {
@@ -51,9 +54,33 @@ const generateInitialPosition = (index: number): { x: number; y: number } => {
 };
 
 export default function VisionBoardPage() {
-  const [, setLocation] = useLocation();
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
+  const [location, navigate] = useLocation();
+  const [visionCards, setVisionCards] = useState<VisionCard[]>([
+    {
+      id: '1',
+      title: 'Dream Career',
+      description: 'Leading a team that creates meaningful impact',
+      category: 'career',
+      position: generateInitialPosition(0),
+      imageUrl: undefined
+    },
+    {
+      id: '2',
+      title: 'Vibrant Health',
+      description: 'Feeling energetic and strong every day',
+      category: 'health',
+      position: generateInitialPosition(1),
+      imageUrl: undefined
+    },
+    {
+      id: '3',
+      title: 'Deep Relationships',
+      description: 'Surrounded by people who truly understand me',
+      category: 'relationships',
+      position: generateInitialPosition(2),
+      imageUrl: undefined
+    },
+  ]);
 
   const [editingCard, setEditingCard] = useState<VisionCard | null>(null);
   const [newCard, setNewCard] = useState({
@@ -66,81 +93,9 @@ export default function VisionBoardPage() {
   const [draggedCard, setDraggedCard] = useState<string | null>(null);
   const [touchOffset, setTouchOffset] = useState<{ x: number; y: number } | null>(null);
 
-  // Load vision plan
   const { data: visionPlan } = useQuery<VisionPlan>({
     queryKey: ["/api/vision"],
     retry: false,
-  });
-
-  // Load vision cards from database
-  const { data: dbVisionCards = [] } = useQuery<DbVisionCard[]>({
-    queryKey: ["/api/vision-cards"],
-    retry: false,
-  });
-
-  // Convert DB vision cards to UI format
-  const visionCards: VisionCard[] = dbVisionCards.map(card => ({
-    ...card,
-    position: { x: card.positionX, y: card.positionY }
-  }));
-
-  // Mutations for vision cards
-  const createCardMutation = useMutation({
-    mutationFn: async (cardData: any) => {
-      const response = await fetch('/api/vision-cards', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(cardData),
-      });
-      if (!response.ok) throw new Error('Failed to create card');
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/vision-cards"] });
-      toast({ title: "Vision card created!", description: "Your vision has been saved." });
-    },
-    onError: () => {
-      toast({ title: "Error", description: "Failed to create vision card", variant: "destructive" });
-    }
-  });
-
-  const updateCardMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: any }) => {
-      const response = await fetch(`/api/vision-cards/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error('Failed to update card');
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/vision-cards"] });
-      toast({ title: "Vision card updated!", description: "Your changes have been saved." });
-    },
-    onError: () => {
-      toast({ title: "Error", description: "Failed to update vision card", variant: "destructive" });
-    }
-  });
-
-  const deleteCardMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const response = await fetch(`/api/vision-cards/${id}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-      if (!response.ok) throw new Error('Failed to delete card');
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/vision-cards"] });
-      toast({ title: "Vision card deleted", description: "The card has been removed." });
-    },
-    onError: () => {
-      toast({ title: "Error", description: "Failed to delete vision card", variant: "destructive" });
-    }
   });
 
   const hasLifeCompass = !!(
@@ -174,44 +129,23 @@ export default function VisionBoardPage() {
     const x = e.clientX - containerRect.left - touchOffset.x;
     const y = e.clientY - containerRect.top - touchOffset.y;
 
-    // Update position optimistically for immediate feedback
-    const newPosition = { 
-      x: Math.max(0, Math.min(x, containerRect.width - 192)), 
-      y: Math.max(0, Math.min(y, containerRect.height - 200)) 
-    };
-
-    // Update local cache for immediate feedback
-    queryClient.setQueryData(["/api/vision-cards"], (oldData: DbVisionCard[] | undefined) => {
-      if (!oldData) return oldData;
-      return oldData.map(card => 
-        card.id === draggedCard 
-          ? { ...card, positionX: newPosition.x, positionY: newPosition.y }
+    setVisionCards(cards =>
+      cards.map(card =>
+        card.id === draggedCard
+          ? { 
+              ...card, 
+              position: { 
+                x: Math.max(0, Math.min(x, containerRect.width - 192)), 
+                y: Math.max(0, Math.min(y, containerRect.height - 200)) 
+              } 
+            }
           : card
-      );
-    });
+      )
+    );
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
     e.preventDefault();
-    
-    // Save position to database when drag ends
-    if (draggedCard) {
-      const cardToUpdate = visionCards.find(c => c.id === draggedCard);
-      if (cardToUpdate) {
-        updateCardMutation.mutate({
-          id: cardToUpdate.id,
-          data: {
-            title: cardToUpdate.title,
-            description: cardToUpdate.description,
-            category: cardToUpdate.category,
-            imageUrl: cardToUpdate.imageUrl || null,
-            positionX: Math.round(cardToUpdate.position.x),
-            positionY: Math.round(cardToUpdate.position.y),
-          }
-        });
-      }
-    }
-    
     setDraggedCard(null);
     setTouchOffset(null);
     e.currentTarget.releasePointerCapture(e.pointerId);
@@ -219,81 +153,82 @@ export default function VisionBoardPage() {
 
   const addVisionCard = () => {
     if (newCard.title && newCard.description) {
-      const initialPosition = generateInitialPosition(visionCards.length);
-      createCardMutation.mutate({
+      const newCardObj: VisionCard = {
+        id: Date.now().toString(),
         title: newCard.title,
         description: newCard.description,
         category: newCard.category,
-        imageUrl: newCard.imageUrl || null,
-        positionX: initialPosition.x,
-        positionY: initialPosition.y,
-      });
+        imageUrl: newCard.imageUrl || undefined,
+        position: generateInitialPosition(visionCards.length)
+      };
+      setVisionCards([...visionCards, newCardObj]);
       setNewCard({ title: '', description: '', category: 'personal', imageUrl: '' });
       setIsAddingCard(false);
     }
   };
 
-  const removeCard = (cardId: string) => {
-    deleteCardMutation.mutate(cardId);
-  };
-
-  const startEditing = (card: VisionCard) => {
-    setEditingCard(card);
-  };
-
   const updateVisionCard = () => {
-    if (editingCard && editingCard.title && editingCard.description) {
-      updateCardMutation.mutate({
-        id: editingCard.id,
-        data: {
-          title: editingCard.title,
-          description: editingCard.description,
-          category: editingCard.category,
-          imageUrl: editingCard.imageUrl || null,
-          positionX: Math.round(editingCard.position.x),
-          positionY: Math.round(editingCard.position.y),
-        }
-      });
+    if (editingCard) {
+      setVisionCards(cards =>
+        cards.map(card =>
+          card.id === editingCard.id ? editingCard : card
+        )
+      );
       setEditingCard(null);
     }
   };
 
+  const removeCard = (cardId: string) => {
+    setVisionCards(cards => cards.filter(card => card.id !== cardId));
+  };
+
+  const startEditing = (card: VisionCard) => {
+    setEditingCard({ ...card });
+  };
+
+  if (!hasLifeCompass) {
+    return (
+      <AppLayout>
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <div className="w-16 h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto">
+            <Sparkles className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900">Vision Board</h1>
+          <p className="text-lg text-gray-600">
+            Complete your Life Compass first to unlock your vision board.
+          </p>
+          <Button onClick={() => navigate("/life-compass")}>
+            Go to Life Compass
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
-      <div className="space-y-6">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
+        <div className="text-center space-y-4">
+          <div className="flex items-center justify-center space-x-3">
+            <div className="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
             <h1 className="text-3xl font-bold text-gray-900">Vision Board</h1>
-            <p className="text-gray-600">Transform your dreams into visual inspiration</p>
+            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+            </div>
           </div>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Create visual representations of your goals. Touch and drag cards to organize your vision.
+          </p>
         </div>
 
-        {/* Life Compass reminder */}
-        {!hasLifeCompass && (
-          <Card className="bg-amber-50 border-amber-200">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <Sparkles className="w-5 h-5 text-amber-600" />
-                <div>
-                  <p className="text-sm font-medium text-amber-800">Complete your Life Compass first</p>
-                  <p className="text-xs text-amber-600">Your vision board will be more powerful when guided by your core values and long-term vision.</p>
-                </div>
-                <Button variant="outline" size="sm" onClick={() => setLocation('/life-compass')}>
-                  Complete Now
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Core Values Display */}
-        <Card>
+        {/* Core Values Reference */}
+        <Card className="bg-blue-50 border-blue-200">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Heart className="w-5 h-5 text-red-500" />
-              <span>Your Core Values</span>
-            </CardTitle>
+            <CardTitle className="text-lg text-blue-900">Your Core Values</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
@@ -379,8 +314,8 @@ export default function VisionBoardPage() {
               <div className="absolute inset-0 bg-pattern opacity-5"></div>
               
               {visionCards.map((card) => {
-                const Icon = categoryIcons[card.category as keyof typeof categoryIcons];
-                const colorClass = categoryColors[card.category as keyof typeof categoryColors];
+                const Icon = categoryIcons[card.category];
+                const colorClass = categoryColors[card.category];
                 
                 return (
                   <div
@@ -503,8 +438,8 @@ export default function VisionBoardPage() {
                 </div>
                 <ImageUpload
                   onImageUploaded={(imageUrl) => setEditingCard({ ...editingCard, imageUrl })}
-                  currentImageUrl={editingCard.imageUrl || undefined}
-                  onImageRemoved={() => setEditingCard({ ...editingCard, imageUrl: null })}
+                  currentImageUrl={editingCard.imageUrl}
+                  onImageRemoved={() => setEditingCard({ ...editingCard, imageUrl: undefined })}
                 />
                 <div>
                   <label htmlFor="edit-category" className="block text-sm font-medium mb-2">Category</label>
@@ -539,14 +474,15 @@ export default function VisionBoardPage() {
           <CardContent className="p-6">
             <div className="flex items-center space-x-3">
               <CheckCircle className="w-6 h-6 text-green-600" />
-              <div className="flex-1">
-                <h3 className="font-semibold text-green-800">Ready for the next step?</h3>
-                <p className="text-sm text-green-600">
-                  Turn your vision into action with quarterly quests
-                </p>
+              <div>
+                <h3 className="font-semibold text-green-900">Vision Board Created!</h3>
+                <p className="text-green-700">Ready to break down your vision into 90-day quarterly goals.</p>
               </div>
-              <Button onClick={() => setLocation('/quarterly-quests')} className="bg-green-600 hover:bg-green-700">
-                Set Quarterly Goals
+              <Button 
+                onClick={() => navigate("/quarterly-quests")}
+                className="ml-auto"
+              >
+                Next: Quarterly Quests
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
