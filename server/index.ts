@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import path from "path"; // <-- ADD THIS
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -24,15 +25,10 @@ app.use((req, res, next) => {
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
+      if (logLine.length > 80) logLine = logLine.slice(0, 79) + "…";
       log(logLine);
     }
   });
-
   next();
 });
 
@@ -42,33 +38,22 @@ app.use((req, res, next) => {
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
     res.status(status).json({ message });
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // dev = Replit HMR, prod = static files + SPA fallback
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    serveStatic(app);
+    serveStatic(app);                         // serves dist/public/*
+    app.get("*", (_req, res) => {             // <-- SPA CATCH-ALL (AFTER static)
+      res.sendFile(path.join(process.cwd(), "dist/public/index.html"));
+    });
   }
- // SERVE REACT APP FOR EVERY UNKNOWN ROUTE (must be LAST)
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(process.cwd(), 'dist/public/index.html'))
-})
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
+
+  const port = parseInt(process.env.PORT || "5000", 10);
+  server.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
     log(`serving on port ${port}`);
   });
 })();
