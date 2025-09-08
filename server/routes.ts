@@ -5,6 +5,7 @@ import { setupAuth, isAuthenticated } from "./replitAuth";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 import {
   insertVisionPlanSchema,
+  insertVisionCardSchema,
   insertQuarterlyQuestSchema,
   insertWeeklyPlanSchema,
   insertDailyTaskSchema,
@@ -51,6 +52,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating/updating vision plan:", error);
       res.status(400).json({ message: "Invalid vision plan data" });
+    }
+  });
+
+  // Vision Cards routes
+  app.get("/api/vision-cards", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const visionCards = await storage.getVisionCards(userId);
+      res.json(visionCards);
+    } catch (error) {
+      console.error("Error fetching vision cards:", error);
+      res.status(500).json({ message: "Failed to fetch vision cards" });
+    }
+  });
+
+  app.post("/api/vision-cards", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const validatedData = insertVisionCardSchema.parse({ ...req.body, userId });
+      const visionCard = await storage.createVisionCard(validatedData);
+      res.json(visionCard);
+    } catch (error) {
+      console.error("Error creating vision card:", error);
+      res.status(400).json({ message: "Invalid vision card data" });
+    }
+  });
+
+  app.put("/api/vision-cards/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const cardId = req.params.id;
+      const validatedData = insertVisionCardSchema.parse({ ...req.body, userId });
+      const visionCard = await storage.updateVisionCard(cardId, validatedData);
+      if (!visionCard) {
+        return res.status(404).json({ message: "Vision card not found" });
+      }
+      res.json(visionCard);
+    } catch (error) {
+      console.error("Error updating vision card:", error);
+      res.status(400).json({ message: "Invalid vision card data" });
+    }
+  });
+
+  app.delete("/api/vision-cards/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const cardId = req.params.id;
+      const deleted = await storage.deleteVisionCard(cardId, userId);
+      if (!deleted) {
+        return res.status(404).json({ message: "Vision card not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting vision card:", error);
+      res.status(500).json({ message: "Failed to delete vision card" });
     }
   });
 
