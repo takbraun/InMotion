@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand Colors */
+  --color-black: #142030;        /* Primary text */
+  --color-tan: #E9D8C8;          /* Background */
+  --color-blue-whale: #1E3442;   /* Headings / Nav */
+  --color-eggplant: #732553;     /* Secondary brand */
+  --color-strawberry: #FF5C8D;   /* CTA, accents */
+  --color-grauzone: #85A3B2;     /* Borders, inactive states */
+
+  /* Tailwind CSS Variables */
+  --background: hsl(29, 31%, 85%); /* Tan */
+  --foreground: hsl(210, 40%, 14%); /* Black */
+  --muted: hsl(29, 31%, 85%); /* Tan */
+  --muted-foreground: hsl(210, 40%, 14%); /* Black */
+  --popover: hsl(0, 0%, 100%); /* White */
+  --popover-foreground: hsl(210, 40%, 14%); /* Black */
+  --card: hsl(0, 0%, 100%); /* White */
+  --card-foreground: hsl(210, 40%, 14%); /* Black */
+  --border: hsl(200, 16%, 60%); /* Grauzone */
+  --input: hsl(0, 0%, 100%); /* White */
+  --primary: hsl(338, 100%, 68%); /* Strawberry */
+  --primary-foreground: hsl(0, 0%, 100%); /* White */
+  --secondary: hsl(320, 47%, 39%); /* Eggplant */
+  --secondary-foreground: hsl(0, 0%, 100%); /* White */
+  --accent: hsl(338, 100%, 68%); /* Strawberry */
+  --accent-foreground: hsl(0, 0%, 100%); /* White */
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(0, 0%, 100%); /* White */
+  --ring: hsl(338, 100%, 68%); /* Strawberry */
+  --radius: 0.5rem;
+  --neutral: hsl(205, 32%, 25%); /* Blue Whale */
+}
+
+.dark {
+  --background: hsl(205, 32%, 25%); /* Blue Whale */
+  --foreground: hsl(29, 31%, 85%); /* Tan */
+  --muted: hsl(205, 32%, 30%); /* Darker Blue Whale */
+  --muted-foreground: hsl(29, 31%, 70%);
+  --popover: hsl(205, 32%, 30%); /* Darker Blue Whale */
+  --popover-foreground: hsl(29, 31%, 85%); /* Tan */
+  --card: hsl(210, 40%, 20%); /* Darker than Blue Whale */
+  --card-foreground: hsl(29, 31%, 85%); /* Tan */
+  --border: hsl(200, 16%, 50%); /* Darker Grauzone */
+  --input: hsl(0, 0%, 100%); /* Pure white for all form inputs */
+  --primary: hsl(338, 100%, 68%); /* Strawberry */
+  --primary-foreground: hsl(0, 0%, 100%); /* White */
+  --secondary: hsl(320, 47%, 50%); /* Lighter Eggplant for dark mode */
+  --secondary-foreground: hsl(0, 0%, 100%); /* White */
+  --accent: hsl(338, 100%, 68%); /* Strawberry */
+  --accent-foreground: hsl(0, 0%, 100%); /* White */
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(0, 0%, 100%); /* White */
+  --ring: hsl(338, 100%, 68%); /* Strawberry */
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* Backgrounds */
+  body {
+    background-color: var(--color-tan);
+    color: var(--color-black);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* Headings */
+  h1, h2, h3 {
+    color: var(--color-blue-whale);
+  }
+}
+
+@layer utilities {
+  /* Hero section highlight */
+  .hero h1 span {
+    color: var(--color-eggplant);
+  }
+
+  /* Buttons */
+  .button-primary {
+    background-color: var(--color-strawberry);
+    color: white;
+  }
+
+  .button-primary:hover {
+    background-color: var(--color-eggplant);
+  }
+
+  .button-secondary {
+    background-color: var(--color-eggplant);
+    color: white;
+  }
+
+  .button-secondary:hover {
+    background-color: var(--color-blue-whale);
+  }
+
+  /* Cards */
+  .card {
+    background-color: white;
+    border: 1px solid var(--color-grauzone);
+  }
+
+  /* Progress bars / highlights */
+  .progress {
+    background-color: var(--color-strawberry);
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, var(--color-strawberry) 0%, var(--color-eggplant) 100%);
+  }
+  
+  .card-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    background-color: white;
+    border: 1px solid var(--color-grauzone);
+  }
+  
+  .card-shadow:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .progress-bar {
+    transition: width 0.3s ease-in-out;
+    background-color: var(--color-strawberry);
+  }
+  
+  .collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+  
+  .collapsible-content.expanded {
+    max-height: 1000px;
+  }
+  
+  .equal-height-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  
+  .equal-height-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .equal-height-card > .card-shadow {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+  }
+  
+  .equal-height-card .card-shadow > div:last-child {
+    flex: 1;
+  }
+  
+  /* Date input styling for proper calendar icon visibility */
+  input[type="date"] {
+    color-scheme: light dark;
+  }
+  
+  .dark input[type="date"] {
+    color-scheme: dark;
+  }
+  
+  /* Ensure calendar icon is visible in both themes */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+    opacity: 0.8;
+  }
+  
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
+  }
+  
+  /* Ensure form inputs have proper white background and dark text with dashboard-style borders */
+  input, textarea, select {
+    background-color: white !important;
+    color: #001C3D !important; /* Dark blue text for readability */
+    border: 1px solid hsl(var(--border)) !important;
+  }
+  
+  /* Subtle focus state matching dashboard styling */
+  input:focus, textarea:focus, select:focus {
+    border: 1px solid hsl(var(--ring)) !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ensure placeholder text is visible */
+  input::placeholder, textarea::placeholder {
+    color: #666 !important;
+    opacity: 0.7;
+  }
+  
+  /* Add backdrop blur to all modal overlays */
+  [data-radix-dialog-overlay],
+  [data-radix-alert-dialog-overlay],
+  [data-radix-sheet-overlay],
+  [data-radix-drawer-overlay] {
+    backdrop-filter: blur(2px);
+  }
+}

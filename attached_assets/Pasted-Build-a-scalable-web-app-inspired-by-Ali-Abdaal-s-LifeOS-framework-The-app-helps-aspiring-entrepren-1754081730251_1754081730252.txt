@@ -1,0 +1,72 @@
+Build a scalable web app inspired by Ali Abdaal’s LifeOS framework. The app helps aspiring entrepreneurs and productivity-focused users turn vision into actionable tasks to reach goals like generating $5K+/month in business revenue.
+
+🧩 Core Features to Build (MVP)
+1. Authentication
+* OAuth via Google (primary)
+* GitHub and email/password fallback
+* Use Supabase Auth
+2. Vision Planning Module
+* “Life Compass” → core values entry
+* “Future Sketch” → rich text editor for 3-year vision
+* “Why Engine” → purpose & motivation journaling
+3. Quarterly Quest Tracker
+* Create & track 90-day business goals using GPS:
+    * Goal (e.g., $5K revenue)
+    * Plan (steps to get there)
+    * Systems (recurring habits)
+* Link to weekly plans
+4. Weekly Planning System
+* Set 3 weekly priorities
+* Weekly reflection journal
+* Auto-link to daily task view
+* Show progress bar for week
+5. Daily Task Manager + Pomodoro Timer
+* Add 2–3 high-impact tasks per day
+* Checkbox-style completion
+* Integrated Pomodoro timer (25/5 default)
+* Timer logs per task
+* Optional daily reflection
+6. Cross-Device Support
+* Works seamlessly across desktop, tablet, and mobile
+* Offline-capable via PWA
+* Syncs data in real-time using Supabase
+
+🖼 UI/UX Design Requirements
+* Mobile-first, responsive layout using Tailwind CSS
+* Dashboard-like feel on desktop, clean single-column on mobile
+* Components: Cards, collapsible sections, modals
+* Use calm, professional color scheme:
+    * Primary: #3B82F6 (Blue)
+    * Secondary: #10B981 (Green)
+    * Accent: #8B5CF6 (Purple)
+    * Neutral: #6B7280 (Gray)
+
+🧱 Tech Stack
+* Frontend: Next.js 13+ (App Router), React 18, TypeScript, Tailwind CSS
+* Backend: Supabase (Postgres, Auth, Realtime), Edge Functions
+* Deployment: Vercel (CI/CD, global CDN)
+* PWA Setup: Offline support, push notifications for Pomodoro
+
+🔄 Future-Ready Features (for next versions)
+* Export/Import from Notion (low priority)
+* Team-based planning or accountability features
+* Learning journey module for students
+* Advanced analytics dashboard (task completion, Pomodoro use)
+* Monetization dashboard for freelancers (track revenue goals)
+
+📊 Success Metrics (MVP)
+* Active daily users
+* Number of completed tasks per user/week
+* Quarterly quest creation + completion rates
+* Pomodoro usage per user
+
+📆 Timeline (Recommended)
+* Week 1–2: Core UI and auth setup
+* Week 3–4: Vision, Quest, Weekly, Daily modules
+* Week 5: Pomodoro + mobile optimization
+* Week 6: Testing, PWA setup, deployment
+
+🔐 Security & Privacy
+* Follow GDPR best practices: account deletion/export
+* Use Supabase Row-Level Security (RLS)
+* Don’t collect unnecessary data; no 3rd-party tracking
