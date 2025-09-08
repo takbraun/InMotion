@@ -55,7 +55,10 @@ app.use((req, res, next) => {
   } else {
     serveStatic(app);
   }
-
+ // SERVE REACT APP FOR EVERY UNKNOWN ROUTE (must be LAST)
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(process.cwd(), 'dist/public/index.html'))
+})
   // ALWAYS serve the app on the port specified in the environment variable PORT
   // Other ports are firewalled. Default to 5000 if not specified.
   // this serves both the API and the client.
