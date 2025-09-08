@@ -205,8 +205,8 @@ export default function VisionBoardPage() {
             description: cardToUpdate.description,
             category: cardToUpdate.category,
             imageUrl: cardToUpdate.imageUrl || null,
-            positionX: cardToUpdate.position.x,
-            positionY: cardToUpdate.position.y,
+            positionX: Math.round(cardToUpdate.position.x),
+            positionY: Math.round(cardToUpdate.position.y),
           }
         });
       }
@@ -250,8 +250,8 @@ export default function VisionBoardPage() {
           description: editingCard.description,
           category: editingCard.category,
           imageUrl: editingCard.imageUrl || null,
-          positionX: editingCard.position.x,
-          positionY: editingCard.position.y,
+          positionX: Math.round(editingCard.position.x),
+          positionY: Math.round(editingCard.position.y),
         }
       });
       setEditingCard(null);
